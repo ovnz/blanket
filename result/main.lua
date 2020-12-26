@@ -11,15 +11,15 @@
 --   panes, each displaying different information and in different ways)
 
 -- IMPORTANT TODOs:
--- * add a table containing the offsets of each DST from the top-left of the
---   pane and use these to compute the absolute coordinates instead of
---   hardcoding everything
+-- * move all the relevant hardcoded DST values into skin_objects and draw
+--   those instead
 -- * try to decouple as much of the currently implemented functionality as
 --   possible
 
 local op = require("prop")
 local util = require("result/util")
 local main_state = require("main_state")
+local skin_object = require("skin_object")
 
 local PROPERTY_OP = 899
 local function property_op()
@@ -333,7 +333,7 @@ local function main()
     }
 
     util.make_judge_graph(skin, 1551, 269)
-
+    
     -- fade in
     table.insert(skin.destination, { id = op.image.black, loop = -1, dst = {
         { time =   0, x = 0, y = 0, w = header.w, h = header.h, a = 255 },
