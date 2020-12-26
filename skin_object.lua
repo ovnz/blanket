@@ -15,7 +15,7 @@ local skin_object = {
                 local t_item = {}
 
                 for key,val in pairs(item) do
-                    if type(val) ~= "table" then
+                    if key ~= "dst" then
                         t_item[key] = val
                     end
                 end
@@ -40,7 +40,7 @@ local skin_object = {
     end,
 }
 
-function skin_object.new(x, y, dst)
+function skin_object.new(dst, x, y)
     return {
         origin_x = x, origin_y = y, dst = dst,
         apply = skin_object.apply

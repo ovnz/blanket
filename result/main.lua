@@ -17,9 +17,11 @@
 --   possible
 
 local op = require("prop")
-local util = require("result/util")
 local main_state = require("main_state")
 local skin_object = require("skin_object")
+
+local util = require("result/util")
+local pane = require("result/pane")
 
 local PROPERTY_OP = 899
 local function property_op()
@@ -66,13 +68,6 @@ local function main()
     for k, v in pairs(header) do
         skin[k] = v
     end
-
-    local fast_count = main_state.number(op.num.totalearly)
-    local slow_count = main_state.number(op.num.totallate)
-    local note_count = util.total_played_notes()
-
-    local fast_w = fast_count / note_count
-    local slow_w = slow_count / note_count
 
     skin.source = {
         { id = "parts",     path = "result/parts.png" },
@@ -239,6 +234,8 @@ local function main()
 
         { id = "vignette",   dst = {{ x = 0, y = 0, w = header.w, h = header.h }} },
 
+        --[[
+
         { id = "bg_frame",   dst = {{ x = 1408, y =  46, w = 512, h = 984 }} },
         -- flashing animation
         { id = "bg_frame",  loop = 1,   dst = {
@@ -328,12 +325,25 @@ local function main()
         { id = "fast_graph", dst = {{ x = 1601, y = 106, w = 104 * fast_w, h = 12 }} },
         { id = "slow_graph", dst = {{ x = 1601, y =  78, w = 104 * slow_w, h = 12 }} },
 
+        ]]
+
         { id = "title",  dst = {{ x = 960, y = 80, w = 880, h = title_size }} },
         { id = "artist", dst = {{ x = 960, y = 52, w = 880, h = artist_size }} },
     }
 
-    util.make_judge_graph(skin, 1551, 269)
-    
+    -- util.make_judge_graph(skin, 1551, 269)
+
+    local fast_count = main_state.number(op.num.totalearly)
+    local slow_count = main_state.number(op.num.totallate)
+    local note_count = util.total_played_notes()
+
+    local fast_w = fast_count / note_count
+    local slow_w = slow_count / note_count
+
+    local t = { fast_w = fast_w, slow_w = slow_w }
+    local pane_obj = skin_object.new(pane.main_pane(t), 1408, 46)
+    pane_obj:apply(skin)
+
     -- fade in
     table.insert(skin.destination, { id = op.image.black, loop = -1, dst = {
         { time =   0, x = 0, y = 0, w = header.w, h = header.h, a = 255 },
