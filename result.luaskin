@@ -1,4 +1,4 @@
-local t = require("result/resultmain")
+local t = require("result/main")
 if skin_config then
     return t.main()
 else
