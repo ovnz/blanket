@@ -10,12 +10,6 @@
 -- * modular pane system (player able to change the type of the left and right
 --   panes, each displaying different information and in different ways)
 
--- IMPORTANT TODOs:
--- * move all the relevant hardcoded DST values into skin_objects and draw
---   those instead
--- * try to decouple as much of the currently implemented functionality as
---   possible
-
 local op = require("prop")
 local main_state = require("main_state")
 local skin_object = require("skin_object")
@@ -32,10 +26,22 @@ end
 op.prop = {
     stagefile_off   = property_op(),
     stagefile_on    = property_op(),
+    left_pane_off   = property_op(),
+    left_pane_main  = property_op(),
+    right_pane_off  = property_op(),
+    right_pane_main = property_op(),
 }
 
 local property = {
-    { name = "Use stagefile as background image", item = {
+    { name = "Left Pane", item = {
+        { name = "OFF",    op = op.prop.left_pane_off },
+        { name = "RESULT", op = op.prop.left_pane_main },
+    }},
+    { name = "Right Pane", item = {
+        { name = "OFF",    op = op.prop.right_pane_off },
+        { name = "RESULT", op = op.prop.right_pane_main },
+    }},
+    { name = "Use Stagefile as Background Image", item = {
         { name = "ON",  op = op.prop.stagefile_on  },
         { name = "OFF", op = op.prop.stagefile_off },
     }},
@@ -142,11 +148,11 @@ local function main()
         { id = "txt_fast",    src = "parts",  x = 1048, y = 163, w =  71, h = 17 },
         { id = "txt_slow",    src = "parts",  x = 1048, y = 182, w =  71, h = 17 },
 
-        { id = "judge_pg", src = "parts",  x = 980, y = 163, w = 62, h = 14 },
-        { id = "judge_gr", src = "parts",  x = 980, y = 179, w = 62, h = 14 },
-        { id = "judge_gd", src = "parts",  x = 980, y = 195, w = 62, h = 14 },
-        { id = "judge_bd", src = "parts",  x = 980, y = 211, w = 62, h = 14 },
-        { id = "judge_pr", src = "parts",  x = 980, y = 227, w = 62, h = 14 },
+        { id = "txt_pgreat", src = "parts",  x = 980, y = 163, w = 62, h = 14 },
+        { id = "txt_great",  src = "parts",  x = 980, y = 179, w = 62, h = 14 },
+        { id = "txt_good",   src = "parts",  x = 980, y = 195, w = 62, h = 14 },
+        { id = "txt_bad",    src = "parts",  x = 980, y = 211, w = 62, h = 14 },
+        { id = "txt_poor",   src = "parts",  x = 980, y = 227, w = 62, h = 14 },
 
         { id = "konkai_clear", src = "parts", x = 986, y = 248, w = 152, h = 264,
             divy = 11, len = 11, ref = op.num.clear },
@@ -234,104 +240,9 @@ local function main()
 
         { id = "vignette",   dst = {{ x = 0, y = 0, w = header.w, h = header.h }} },
 
-        --[[
-
-        { id = "bg_frame",   dst = {{ x = 1408, y =  46, w = 512, h = 984 }} },
-        -- flashing animation
-        { id = "bg_frame",  loop = 1,   dst = {
-            { time =    0,     x = 1408, y =  46, w = 512, h = 984, a = 150 },
-            { time = 2000,     x = 1408, y =  46, w = 512, h = 984, a =  64},
-        } },
-
-        { id = "bg_graph",   dst = {{ x = 1432, y = 749, w = 463, h = 256 }} },
-        { id = "bg_update1", dst = {{ x = 1432, y = 664, w = 463, h =  47 }} },
-        { id = "bg_update1", dst = {{ x = 1432, y = 605, w = 463, h =  47 }} },
-        { id = "bg_update1", dst = {{ x = 1432, y = 546, w = 463, h =  47 }} },
-        -- this one was originally bg_update1, changed it since beatoraja
-        -- doesnt support best score misscounts
-        { id = "bg_update2", dst = {{ x = 1432, y = 487, w = 463, h =  47 }} },
-        { id = "bg_update2", dst = {{ x = 1432, y = 428, w = 463, h =  47 }} },
-        { id = "bg_judge",   dst = {{ x = 1432, y = 184, w = 463, h = 194 }} },
-        { id = "bg_fs",      dst = {{ x = 1432, y =  65, w = 463, h =  64 }} },
-
-        { id = "grade_aaa", op = { op.opt.now_aaa_1p }, dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_aa",  op = { op.opt.now_aa_1p },  dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_a",   op = { op.opt.now_a_1p },   dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_b",   op = { op.opt.now_b_1p },   dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_c",   op = { op.opt.now_c_1p },   dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_d",   op = { op.opt.now_d_1p },   dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_e",   op = { op.opt.now_e_1p },   dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-        { id = "grade_f",   op = { op.opt.now_f_1p },   dst = {{ x = 1433, y = 808, w = 448, h = 132 }} },
-
-        { id = "s_grade_aaa", op = { op.opt.now_aaa_1p }, dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_aa",  op = { op.opt.now_aa_1p },  dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_a",   op = { op.opt.now_a_1p },   dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_b",   op = { op.opt.now_b_1p },   dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_c",   op = { op.opt.now_c_1p },   dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_d",   op = { op.opt.now_d_1p },   dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_e",   op = { op.opt.now_e_1p },   dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_f",   op = { op.opt.now_f_1p },   dst = {{ x = 1742, y = 614, w = 152, h = 28 }} },
-
-        { id = "s_grade_aaa", op = { op.opt.best_aaa_1p }, dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_aa",  op = { op.opt.best_aa_1p },  dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_a",   op = { op.opt.best_a_1p },   dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_b",   op = { op.opt.best_b_1p },   dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_c",   op = { op.opt.best_c_1p },   dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_d",   op = { op.opt.best_d_1p },   dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_e",   op = { op.opt.best_e_1p },   dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-        { id = "s_grade_f",   op = { op.opt.best_f_1p },   dst = {{ x = 1588, y = 614, w = 152, h = 28 }} },
-
-
-        { id = "txt_best",   dst = {{ x = 1600, y = 718, w = 127, h =  22 }} },
-        { id = "txt_konkai", dst = {{ x = 1754, y = 718, w = 127, h =  22 }} },
-
-        { id = "txt_clearty", dst = {{ x = 1449, y = 680, w = 128, h = 15 }} },
-        { id = "txt_grade",   dst = {{ x = 1449, y = 620, w = 128, h = 15 }} },
-        { id = "txt_score",   dst = {{ x = 1449, y = 562, w = 128, h = 15 }} },
-        { id = "txt_missct",  dst = {{ x = 1449, y = 503, w = 128, h = 15 }} },
-        { id = "txt_target",  dst = {{ x = 1449, y = 445, w = 128, h = 15 }} },
-
-        { id = "txt_judge", dst = {{ x = 1594, y = 360, w = 141, h = 11 }} },
-        { id = "txt_cb",    dst = {{ x = 1751, y = 118, w = 120, h =  8 }} },
-        { id = "txt_fast",  dst = {{ x = 1457, y = 103, w =  71, h = 17 }} },
-        { id = "txt_slow",  dst = {{ x = 1457, y =  75, w =  71, h = 17 }} },
-
-        { id = "judge_pg", dst = {{ x = 1675, y = 329, w = 62, h = 14 }} },
-        { id = "judge_gr", dst = {{ x = 1675, y = 295, w = 62, h = 14 }} },
-        { id = "judge_gd", dst = {{ x = 1675, y = 261, w = 62, h = 14 }} },
-        { id = "judge_bd", dst = {{ x = 1675, y = 227, w = 62, h = 14 }} },
-        { id = "judge_pr", dst = {{ x = 1675, y = 193, w = 62, h = 14 }} },
-
-        { id = "best_clear",    dst = {{ x = 1588, y = 676, w = 152, h = 24 }} },
-        { id = "konkai_clear",  dst = {{ x = 1742, y = 676, w = 152, h = 24 }} },
-        { id = "best_score",    dst = {{ x = 1620, y = 557, w =  22, h = 24 }} },
-        { id = "konkai_score",  dst = {{ x = 1771, y = 556, w =  24, h = 27 }} },
-        { id = "konkai_missct", dst = {{ x = 1771, y = 497, w =  24, h = 27 }} },
-        -- { id = "best_missct",   dst = {{ x = 1620, y = 498, w =  22, h = 24 }} },
-        { id = "target_score",  dst = {{ x = 1771, y = 438, w =  24, h = 27 }} },
-        { id = "cb_count",      dst = {{ x = 1764, y = 76,  w =  24, h = 27 }} },
-        { id = "fs_fast",       dst = {{ x = 1548, y = 103, w =  15, h = 17 }} },
-        { id = "fs_slow",       dst = {{ x = 1548, y = 75,  w =  15, h = 17 }} },
-        { id = "judge_pgreat",  dst = {{ x = 1821, y = 327, w =  15, h = 17 }} },
-        { id = "judge_great",   dst = {{ x = 1821, y = 294, w =  15, h = 17 }} },
-        { id = "judge_good",    dst = {{ x = 1821, y = 260, w =  15, h = 17 }} },
-        { id = "judge_bad",     dst = {{ x = 1821, y = 226, w =  15, h = 17 }} },
-        { id = "judge_poor",    dst = {{ x = 1821, y = 192, w =  15, h = 17 }} },
-
-        { id = "gaugegraph", blend = 2, dst = {
-            { x = 1440, y = 757, w = 455, h = 241, },
-        } },
-
-        { id = "fast_graph", dst = {{ x = 1601, y = 106, w = 104 * fast_w, h = 12 }} },
-        { id = "slow_graph", dst = {{ x = 1601, y =  78, w = 104 * slow_w, h = 12 }} },
-
-        ]]
-
         { id = "title",  dst = {{ x = 960, y = 80, w = 880, h = title_size }} },
         { id = "artist", dst = {{ x = 960, y = 52, w = 880, h = artist_size }} },
     }
-
-    -- util.make_judge_graph(skin, 1551, 269)
 
     local fast_count = main_state.number(op.num.totalearly)
     local slow_count = main_state.number(op.num.totallate)
@@ -340,9 +251,17 @@ local function main()
     local fast_w = fast_count / note_count
     local slow_w = slow_count / note_count
 
-    local t = { fast_w = fast_w, slow_w = slow_w }
-    local pane_obj = skin_object.new(pane.main_pane(t), 1408, 46)
-    pane_obj:apply(skin)
+    if skin_config.option["Left Pane"] == op.prop.left_pane_main then
+        local t = { flip = 1, fast_w = fast_w, slow_w = slow_w }
+        local pane_obj = skin_object.new(pane.main_pane(t), 0, 50)
+        pane_obj:apply(skin)
+    end
+
+    if skin_config.option["Right Pane"] == op.prop.right_pane_main then
+        local t = { fast_w = fast_w, slow_w = slow_w }
+        local pane_obj = skin_object.new(pane.main_pane(t), 1408, 50)
+        pane_obj:apply(skin)
+    end
 
     -- fade in
     table.insert(skin.destination, { id = op.image.black, loop = -1, dst = {

@@ -1,7 +1,7 @@
 -- skin object table, used for defining collections of DST calls which can all
 -- be offset by a certain amount
 --
--- dst objects where can either be either:
+-- dst objects can be either:
 -- * beatoraja dst tables
 -- * functions of the form `func(skin, origin_x, origin_y)`
 

@@ -4,23 +4,65 @@ local skin_object = require("skin_object")
 local util = require("result/util")
 
 local function main_pane(t)
+    local flip = false
+    if t.flip ~= nil then
+        flip = true
+    end
+
+    local full_w = 512
+
+    local x = {
+        frame = 0,
+        item = 24,
+        judge_graph = 142,
+    }
+    local w = {
+        frame = 512,
+        item = 463,
+    }
+
+    local judge_x     = 267
+    local judge_num_x = 413
+    local fs_x        = 49
+    local fs_num_x    = 140
+    local fs_graph_x  = 193
+    local cb_x        = 343
+    local cb_num_x    = 356
+
+    if flip then
+        judge_x     = 40
+        judge_num_x = 185
+        fs_x        = 392
+        fs_num_x    = 215
+        fs_graph_x  = 268
+        cb_x        = 49
+        cb_num_x    = 60
+
+        for k,v in pairs(x) do
+            x[k] = full_w - v
+        end
+        for k,v in pairs(w) do
+            w[k] = -v
+        end
+    end
+
     return {
         -- pane frame
-        { id = "bg_frame", dst = {{ x = 0, y =  0, w = 512, h = 984 }} },
+        { id = "bg_frame", dst = {{ x = x.frame, y =  0, w = w.frame, h = 984 }} },
         -- flashing animation
         { id = "bg_frame", loop = 1, dst = {
-            { time =    0, x = 0, y = 0, w = 512, h = 984, a = 150 },
-            { time = 2000, x = 0, y = 0, w = 512, h = 984, a =  64 },
+            { time =    0, x = x.frame, y = 0, w = w.frame, h = 984, a = 150 },
+            { time = 2000, x = x.frame, y = 0, w = w.frame, h = 984, a =  64 },
         } },
 
-        { id = "bg_graph",   dst = {{ x = 24, y = 703, w = 463, h = 256 }} },
-        { id = "bg_update1", dst = {{ x = 24, y = 618, w = 463, h =  47 }} },
-        { id = "bg_update1", dst = {{ x = 24, y = 559, w = 463, h =  47 }} },
-        { id = "bg_update1", dst = {{ x = 24, y = 500, w = 463, h =  47 }} },
-        { id = "bg_update2", dst = {{ x = 24, y = 441, w = 463, h =  47 }} },
-        { id = "bg_update2", dst = {{ x = 24, y = 382, w = 463, h =  47 }} },
-        { id = "bg_judge",   dst = {{ x = 24, y = 138, w = 463, h = 194 }} },
-        { id = "bg_fs",      dst = {{ x = 24, y =  19, w = 463, h =  64 }} },
+        { id = "bg_graph",   dst = {{ x = x.item, y = 703, w = w.item, h = 256 }} },
+        { id = "bg_update1", dst = {{ x = x.item, y = 618, w = w.item, h =  47 }} },
+        { id = "bg_update1", dst = {{ x = x.item, y = 559, w = w.item, h =  47 }} },
+        { id = "bg_update1", dst = {{ x = x.item, y = 500, w = w.item, h =  47 }} },
+        { id = "bg_update2", dst = {{ x = x.item, y = 441, w = w.item, h =  47 }} },
+        { id = "bg_update2", dst = {{ x = x.item, y = 382, w = w.item, h =  47 }} },
+        { id = "bg_judge",   dst = {{ x = x.item, y = 138, w = w.item, h = 194 }} },
+        { id = "bg_fs",      dst = {{ x = x.item, y =  19, w = w.item, h =  64 }} },
 
         { id = "txt_best",   dst = {{ x = 192, y = 672, w = 127, h =  22 }} },
         { id = "txt_konkai", dst = {{ x = 346, y = 672, w = 127, h =  22 }} },
@@ -32,9 +74,15 @@ local function main_pane(t)
         { id = "txt_target",  dst = {{ x = 41, y = 399, w = 128, h = 15 }} },
 
         { id = "txt_judge", dst = {{ x = 186, y = 314, w = 141, h = 11 }} },
-        { id = "txt_cb",    dst = {{ x = 343, y =  72, w = 120, h =  8 }} },
-        { id = "txt_fast",  dst = {{ x =  49, y =  57, w =  71, h = 17 }} },
-        { id = "txt_slow",  dst = {{ x =  49, y =  29, w =  71, h = 17 }} },
+        { id = "txt_cb",    dst = {{ x = cb_x, y =  72, w = 120, h =  8 }} },
+        { id = "txt_fast",  dst = {{ x = fs_x, y =  57, w =  71, h = 17 }} },
+        { id = "txt_slow",  dst = {{ x = fs_x, y =  29, w =  71, h = 17 }} },
+
+        { id = "txt_pgreat", dst = {{ x = judge_x, y = 283, w = 62, h = 14 }} },
+        { id = "txt_great",  dst = {{ x = judge_x, y = 249, w = 62, h = 14 }} },
+        { id = "txt_good",   dst = {{ x = judge_x, y = 215, w = 62, h = 14 }} },
+        { id = "txt_bad",    dst = {{ x = judge_x, y = 181, w = 62, h = 14 }} },
+        { id = "txt_poor",   dst = {{ x = judge_x, y = 147, w = 62, h = 14 }} },
 
         { id = "grade_aaa", op = { prop.opt.now_aaa_1p }, dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
         { id = "grade_aa",  op = { prop.opt.now_aa_1p },  dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
@@ -73,20 +121,20 @@ local function main_pane(t)
         { id = "konkai_score",  dst = {{ x = 363, y = 510, w =  24, h = 27 }} },
         { id = "konkai_missct", dst = {{ x = 363, y = 451, w =  24, h = 27 }} },
         { id = "target_score",  dst = {{ x = 363, y = 392, w =  24, h = 27 }} },
-        { id = "judge_pgreat",  dst = {{ x = 413, y = 281, w =  15, h = 17 }} },
-        { id = "judge_great",   dst = {{ x = 413, y = 248, w =  15, h = 17 }} },
-        { id = "judge_good",    dst = {{ x = 413, y = 214, w =  15, h = 17 }} },
-        { id = "judge_bad",     dst = {{ x = 413, y = 180, w =  15, h = 17 }} },
-        { id = "judge_poor",    dst = {{ x = 413, y = 146, w =  15, h = 17 }} },
-        { id = "cb_count",      dst = {{ x = 356, y =  30, w =  24, h = 27 }} },
-        { id = "fs_fast",       dst = {{ x = 140, y =  57, w =  15, h = 17 }} },
-        { id = "fs_slow",       dst = {{ x = 140, y =  29, w =  15, h = 17 }} },
+        { id = "judge_pgreat",  dst = {{ x = judge_num_x, y = 281, w =  15, h = 17 }} },
+        { id = "judge_great",   dst = {{ x = judge_num_x, y = 248, w =  15, h = 17 }} },
+        { id = "judge_good",    dst = {{ x = judge_num_x, y = 214, w =  15, h = 17 }} },
+        { id = "judge_bad",     dst = {{ x = judge_num_x, y = 180, w =  15, h = 17 }} },
+        { id = "judge_poor",    dst = {{ x = judge_num_x, y = 146, w =  15, h = 17 }} },
+        { id = "cb_count",      dst = {{ x = cb_num_x,    y =  30, w =  24, h = 27 }} },
+        { id = "fs_fast",       dst = {{ x = fs_num_x,    y =  57, w =  15, h = 17 }} },
+        { id = "fs_slow",       dst = {{ x = fs_num_x,    y =  29, w =  15, h = 17 }} },
 
-        { id = "fast_graph", dst = {{ x = 193, y = 60, w = 104 * t.fast_w, h = 12 }} },
-        { id = "slow_graph", dst = {{ x = 193, y = 32, w = 104 * t.slow_w, h = 12 }} },
+        { id = "fast_graph", dst = {{ x = fs_graph_x, y = 60, w = 104 * t.fast_w, h = 12 }} },
+        { id = "slow_graph", dst = {{ x = fs_graph_x, y = 32, w = 104 * t.slow_w, h = 12 }} },
 
-        function(skin, x, y)
-            util.make_judge_graph(skin, x + 142, y + 222)
+        function(skin, origin_x, origin_y)
+            util.make_judge_graph(skin, origin_x + x.judge_graph, origin_y + 222)
         end,
     }
 end
