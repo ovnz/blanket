@@ -164,6 +164,8 @@ local function main()
 
         { id = "judge_graph", src = "parts", x = 1396, y = 1, w = 150, h = 8 },
         { id = "judge_graph_border", src = "parts", x = 1394, y = 24, w = 154, h = 154 },
+
+        { id = "update_indicator", src = "parts", x = 979, y = 546, w = 28, h = 30 },
     }
 
     skin.value = {

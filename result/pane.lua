@@ -133,6 +133,14 @@ local function main_pane(t)
         { id = "fast_graph", dst = {{ x = fs_graph_x, y = 60, w = 104 * t.fast_w, h = 12 }} },
         { id = "slow_graph", dst = {{ x = fs_graph_x, y = 32, w = 104 * t.slow_w, h = 12 }} },
 
+        -- update_clear apparently doesnt exist? TODO: find another way to do this
+        -- TODO: make these float up and down (how tf does the acc property work)
+     -- { id = "update_indicator", op = { prop.opt.update_clear },      dst = {{ x = 473, y = 626, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.opt.update_scorerank },  dst = {{ x = 473, y = 567, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.opt.update_score },      dst = {{ x = 473, y = 508, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.opt.update_misscount },  dst = {{ x = 473, y = 449, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.opt.update_target },     dst = {{ x = 473, y = 390, w = 28, h = 30 }} },
+
         function(skin, origin_x, origin_y)
             util.make_judge_graph(skin, origin_x + x.judge_graph, origin_y + 222)
         end,
