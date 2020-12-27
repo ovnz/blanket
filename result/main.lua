@@ -1,14 +1,12 @@
--- TODO (will only consider the skin complete once these are done):
--- * show the options the player used
--- * show next grade and diff from next grade
--- * show score rate
--- * show playlevel, difficulty, notecount, sp/dp
--- * show ir info
+-- information that should be in the main result pane but is still missing:
+-- * next grade and diff from it
+-- * score rate
+-- * possibly playlevel, difficulty and notecount
 
--- FUTURE IDEAS:
--- * add different kinds of judge graphs
--- * modular pane system (player able to change the type of the left and right
---   panes, each displaying different information and in different ways)
+-- information that belongs to other panes:
+-- * ir info
+-- * detailed song info (genre etc)
+-- * more graphs
 
 local main_state = require("main_state")
 
@@ -113,7 +111,7 @@ local function main()
         { id = "s_grade_e",   src = "grade",  x = 449, y = 178, w = 152, h = 28 },
         { id = "s_grade_f",   src = "grade",  x = 449, y = 207, w = 152, h = 28 },
 
-        { id = "bg_frame",   src = "parts",  x =   0, y =   0, w = 512, h = 984 },
+        { id = "bg_frame",   src = "parts",  x =   0, y =   0, w = 512, h = 952 },
         { id = "bg_graph",   src = "parts",  x = 514, y = 360, w = 463, h = 256 },
         { id = "bg_update1", src = "parts",  x = 514, y =   0, w = 463, h =  47 },
         { id = "bg_update2", src = "parts",  x = 514, y =  49, w = 463, h =  47 },
@@ -250,13 +248,13 @@ local function main()
 
     if skin_config.option["Left Pane"] == prop.prop.left_pane_main then
         local t = { flip = 1, fast_w = fast_w, slow_w = slow_w }
-        local main_pane = SkinObject:new(pane.main_pane(t), 0, 50)
+        local main_pane = SkinObject:new(pane.main_pane(t), 0, 64)
         main_pane:apply(skin)
     end
 
     if skin_config.option["Right Pane"] == prop.prop.right_pane_main then
         local t = { fast_w = fast_w, slow_w = slow_w }
-        local main_pane = SkinObject:new(pane.main_pane(t), 1408, 50)
+        local main_pane = SkinObject:new(pane.main_pane(t), 1408, 64)
         main_pane:apply(skin)
     end
 
