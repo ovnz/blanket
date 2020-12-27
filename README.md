@@ -1,4 +1,4 @@
-# unnamed beatoraja skin
+# Blanket
 
 Result skin for beatoraja inspired by BISTROVER's new result screen.
 

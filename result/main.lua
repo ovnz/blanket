@@ -58,7 +58,7 @@ local filepath = {
 
 local header = {
     type = 7,
-    name = "marie result skin",
+    name = "Blanket",
     w = 1920,
     h = 1080,
     scene = 3600000,
