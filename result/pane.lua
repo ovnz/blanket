@@ -140,6 +140,10 @@ local function main_pane(t)
         { id = "update_indicator", op = { prop.op.update_misscount },  dst = {{ x = 473, y = 449, w = 28, h = 30 }} },
         { id = "update_indicator", op = { prop.op.update_target },     dst = {{ x = 473, y = 390, w = 28, h = 30 }} },
 
+        { id = "best_diff",   dst = {{ x = 399, y = 494, w = 12, h = 12 }} },
+        { id = "missct_diff", dst = {{ x = 399, y = 435, w = 12, h = 12 }} },
+        { id = "target_diff", dst = {{ x = 399, y = 376, w = 12, h = 12 }} },
+
         function(skin, origin_x, origin_y)
             util.make_judge_graph(skin, origin_x + x.judge_graph, origin_y + 222)
         end,

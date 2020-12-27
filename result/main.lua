@@ -1,6 +1,6 @@
 -- TODO (will only consider the skin complete once these are done):
 -- * show the options the player used
--- * show score diffs and updates
+-- * show next grade and diff from next grade
 -- * show score rate
 -- * show playlevel, difficulty, notecount, sp/dp
 -- * show ir info
@@ -168,10 +168,19 @@ local function main()
           x = 1122, y = 31, w = 264, h = 27,   divx = 11, zeropadding = 1 },
         { id = "cb_count",      src = "parts", digit = 4, ref = prop.num.combobreak,
           x = 1122, y =102, w = 264, h = 27,   divx = 11, align = 2},
+
+        { id = "best_diff",     src = "parts", digit = 5, ref = prop.num.diff_highscore,
+          x = 1126, y =135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+        { id = "target_diff",   src = "parts", digit = 5, ref = prop.num.diff_targetscore,
+          x = 1126, y =135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+        { id = "missct_diff",   src = "parts", digit = 5, ref = prop.num.diff_misscount,
+          x = 1126, y =160, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+
         { id = "fs_fast",       src = "parts", digit = 3, ref = prop.num.totalearly,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
         { id = "fs_slow",       src = "parts", digit = 3, ref = prop.num.totallate,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
+
         { id = "judge_pgreat",  src = "parts", digit = 4, ref = prop.num.perfect,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
         { id = "judge_great",   src = "parts", digit = 4, ref = prop.num.great,
