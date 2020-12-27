@@ -782,10 +782,21 @@ local text = {
     table_full = 1003,
 }
 
-return {
+local properties = {
     image = image,
     num = num,
     timer = timer,
-    opt = op,
+    op = op,
     text = text,
+    prop = {}
 }
+
+local last_op = 899
+
+function properties:add_op(name)
+    last_op = last_op + 1
+    self.prop[name] = last_op
+    return last_op
+end
+
+return properties

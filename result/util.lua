@@ -1,12 +1,12 @@
 local main_state = require("main_state")
-local op = require("prop")
+local prop = require("prop")
 
 local function total_played_notes()
-    return main_state.number(op.num.perfect)
-         + main_state.number(op.num.great)
-         + main_state.number(op.num.good)
-         + main_state.number(op.num.bad)
-         + main_state.number(op.num.poor)
+    return main_state.number(prop.num.perfect)
+         + main_state.number(prop.num.great)
+         + main_state.number(prop.num.good)
+         + main_state.number(prop.num.bad)
+         + main_state.number(prop.num.poor)
 end
 
 local function make_judge_graph(skin, centre_x, centre_y)
@@ -14,11 +14,11 @@ local function make_judge_graph(skin, centre_x, centre_y)
     local origin = { x = centre_x - 75, y = centre_y - 4, w = 150, h = 8 }
     local start_angle = 90
 
-    local poor_ct   = main_state.number(op.num.poor)
-    local bad_ct    = main_state.number(op.num.bad)
-    local good_ct   = main_state.number(op.num.good)
-    local great_ct  = main_state.number(op.num.great)
-    local pgreat_ct = main_state.number(op.num.perfect)
+    local poor_ct   = main_state.number(prop.num.poor)
+    local bad_ct    = main_state.number(prop.num.bad)
+    local good_ct   = main_state.number(prop.num.good)
+    local great_ct  = main_state.number(prop.num.great)
+    local pgreat_ct = main_state.number(prop.num.perfect)
     local total_notes = total_played_notes()
 
     local poor_a    = poor_ct
@@ -47,7 +47,7 @@ local function make_judge_graph(skin, centre_x, centre_y)
             colour = { r =   0, g = 127, b = 255 }
         end
         local angle = start_angle + i
-        table.insert(skin.destination, { id = "judge_graph", dst = {
+        table.insert(skin.destination, { id = "judge_graph", filter = 1, dst = {
             { x = origin.x, y = origin.y, w = origin.w, h = origin.h,
               r = colour.r, g = colour.g, b = colour.b,
               angle = angle }

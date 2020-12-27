@@ -10,40 +10,26 @@
 -- * modular pane system (player able to change the type of the left and right
 --   panes, each displaying different information and in different ways)
 
-local op = require("prop")
 local main_state = require("main_state")
-local skin_object = require("skin_object")
+
+local prop = require("prop")
+local SkinObject = require("skin_object")
 
 local util = require("result/util")
 local pane = require("result/pane")
 
-local PROPERTY_OP = 899
-local function property_op()
-    PROPERTY_OP = PROPERTY_OP + 1
-    return PROPERTY_OP
-end
-
-op.prop = {
-    stagefile_off   = property_op(),
-    stagefile_on    = property_op(),
-    left_pane_off   = property_op(),
-    left_pane_main  = property_op(),
-    right_pane_off  = property_op(),
-    right_pane_main = property_op(),
-}
-
 local property = {
     { name = "Left Pane", item = {
-        { name = "OFF",    op = op.prop.left_pane_off },
-        { name = "RESULT", op = op.prop.left_pane_main },
+        { name = "OFF",    op = prop:add_op("left_pane_off")  },
+        { name = "RESULT", op = prop:add_op("left_pane_main") },
     }},
     { name = "Right Pane", item = {
-        { name = "OFF",    op = op.prop.right_pane_off },
-        { name = "RESULT", op = op.prop.right_pane_main },
+        { name = "OFF",    op = prop:add_op("right_pane_off")  },
+        { name = "RESULT", op = prop:add_op("right_pane_main") },
     }},
     { name = "Use Stagefile as Background Image", item = {
-        { name = "ON",  op = op.prop.stagefile_on  },
-        { name = "OFF", op = op.prop.stagefile_off },
+        { name = "ON",  op = prop:add_op("stagefile_on")  },
+        { name = "OFF", op = prop:add_op("stagefile_off") },
     }},
 }
 
@@ -96,9 +82,9 @@ local function main()
 
     skin.text = {
         { id = "title",  font = "title",  size = title_size,  outlineColor = "000000ff",
-          outlineWidth = 2, align = 1, ref = op.text.fulltitle,  overflow = 1, },
+          outlineWidth = 2, align = 1, ref = prop.text.fulltitle,  overflow = 1, },
         { id = "artist", font = "artist", size = artist_size, outlineColor = "000000ff",
-          outlineWidth = 2, align = 1, ref = op.text.fullartist, overflow = 1, },
+          outlineWidth = 2, align = 1, ref = prop.text.fullartist, overflow = 1, },
     }
 
     skin.image = {
@@ -155,9 +141,9 @@ local function main()
         { id = "txt_poor",   src = "parts",  x = 980, y = 227, w = 62, h = 14 },
 
         { id = "konkai_clear", src = "parts", x = 986, y = 248, w = 152, h = 264,
-            divy = 11, len = 11, ref = op.num.clear },
+            divy = 11, len = 11, ref = prop.num.clear },
         { id = "best_clear",   src = "parts", x = 986, y = 248, w = 152, h = 264,
-            divy = 11, len = 11, ref = op.num.target_clear },
+            divy = 11, len = 11, ref = prop.num.target_clear },
 
         { id = "fast_graph", src = "parts", x = 980, y = 519, w = 104, h = 12 },
         { id = "slow_graph", src = "parts", x = 980, y = 532, w = 104, h = 12 },
@@ -169,32 +155,32 @@ local function main()
     }
 
     skin.value = {
-        { id = "konkai_score",  src = "parts", digit = 4, ref = op.num.score,
+        { id = "konkai_score",  src = "parts", digit = 4, ref = prop.num.score,
           x = 1122, y = 3,  w = 264, h = 27,   divx = 11, zeropadding = 1 },
-        { id = "konkai_missct", src = "parts", digit = 4, ref = op.num.misscount,
+        { id = "konkai_missct", src = "parts", digit = 4, ref = prop.num.misscount,
           x = 1122, y = 3,  w = 264, h = 27,   divx = 11, zeropadding = 1 },
-        { id = "best_score",    src = "parts", digit = 4, ref = op.num.highscore,
+        { id = "best_score",    src = "parts", digit = 4, ref = prop.num.highscore,
           x = 1122, y = 59, w = 242, h = 24,   divx = 11, zeropadding = 1 },
         -- beatoraja does not seem to support best score misscount
-        -- { id = "best_missct",   src = "parts", digit = 4, ref = op.num.best_missct,
+        -- { id = "best_missct",   src = "parts", digit = 4, ref = prop.num.best_missct,
         --   x = 1122, y = 59, w = 242, h = 24,   divx = 11, zeropadding = 1 },
-        { id = "target_score",  src = "parts", digit = 4, ref = op.num.target_score,
+        { id = "target_score",  src = "parts", digit = 4, ref = prop.num.target_score,
           x = 1122, y = 31, w = 264, h = 27,   divx = 11, zeropadding = 1 },
-        { id = "cb_count",      src = "parts", digit = 4, ref = op.num.combobreak,
+        { id = "cb_count",      src = "parts", digit = 4, ref = prop.num.combobreak,
           x = 1122, y =102, w = 264, h = 27,   divx = 11, align = 2},
-        { id = "fs_fast",       src = "parts", digit = 3, ref = op.num.totalearly,
+        { id = "fs_fast",       src = "parts", digit = 3, ref = prop.num.totalearly,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
-        { id = "fs_slow",       src = "parts", digit = 3, ref = op.num.totallate,
+        { id = "fs_slow",       src = "parts", digit = 3, ref = prop.num.totallate,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
-        { id = "judge_pgreat",  src = "parts", digit = 4, ref = op.num.perfect,
+        { id = "judge_pgreat",  src = "parts", digit = 4, ref = prop.num.perfect,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
-        { id = "judge_great",   src = "parts", digit = 4, ref = op.num.great,
+        { id = "judge_great",   src = "parts", digit = 4, ref = prop.num.great,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
-        { id = "judge_good",    src = "parts", digit = 4, ref = op.num.good,
+        { id = "judge_good",    src = "parts", digit = 4, ref = prop.num.good,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
-        { id = "judge_bad",     src = "parts", digit = 4, ref = op.num.bad,
+        { id = "judge_bad",     src = "parts", digit = 4, ref = prop.num.bad,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
-        { id = "judge_poor",    src = "parts", digit = 4, ref = op.num.poor,
+        { id = "judge_poor",    src = "parts", digit = 4, ref = prop.num.poor,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },
     }
 
@@ -218,25 +204,25 @@ local function main()
 
     skin.destination = {
         -- clear bg
-        { id = "bg_clear", op = { op.opt.result_clear }, dst = {
+        { id = "bg_clear", op = { prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
         -- stagefile
-        { id = op.image.stagefile, op = { op.prop.stagefile_on, op.opt.result_clear }, dst = {
+        { id = prop.image.stagefile, op = { prop.prop.stagefile_on, prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
         -- custom backgrounds
-        { id = "bg_aaa", op = { op.prop.stagefile_off, op.opt.result_aaa_1p, op.opt.result_clear }, dst = {
+        { id = "bg_aaa", op = { prop.prop.stagefile_off, prop.op.result_aaa_1p, prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
-        { id = "bg_aa",  op = { op.prop.stagefile_off, op.opt.result_aa_1p,  op.opt.result_clear }, dst = {
+        { id = "bg_aa",  op = { prop.prop.stagefile_off, prop.op.result_aa_1p,  prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
-        { id = "bg_a",   op = { op.prop.stagefile_off, op.opt.result_a_1p,   op.opt.result_clear }, dst = {
+        { id = "bg_a",   op = { prop.prop.stagefile_off, prop.op.result_a_1p,   prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
         -- failed bg
-        { id = "bg_failed", op = { op.opt.result_fail }, dst = {
+        { id = "bg_failed", op = { prop.op.result_fail }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
 
@@ -246,32 +232,32 @@ local function main()
         { id = "artist", dst = {{ x = 960, y = 52, w = 880, h = artist_size }} },
     }
 
-    local fast_count = main_state.number(op.num.totalearly)
-    local slow_count = main_state.number(op.num.totallate)
+    local fast_count = main_state.number(prop.num.totalearly)
+    local slow_count = main_state.number(prop.num.totallate)
     local note_count = util.total_played_notes()
 
     local fast_w = fast_count / note_count
     local slow_w = slow_count / note_count
 
-    if skin_config.option["Left Pane"] == op.prop.left_pane_main then
+    if skin_config.option["Left Pane"] == prop.prop.left_pane_main then
         local t = { flip = 1, fast_w = fast_w, slow_w = slow_w }
-        local pane_obj = skin_object.new(pane.main_pane(t), 0, 50)
-        pane_obj:apply(skin)
+        local main_pane = SkinObject:new(pane.main_pane(t), 0, 50)
+        main_pane:apply(skin)
     end
 
-    if skin_config.option["Right Pane"] == op.prop.right_pane_main then
+    if skin_config.option["Right Pane"] == prop.prop.right_pane_main then
         local t = { fast_w = fast_w, slow_w = slow_w }
-        local pane_obj = skin_object.new(pane.main_pane(t), 1408, 50)
-        pane_obj:apply(skin)
+        local main_pane = SkinObject:new(pane.main_pane(t), 1408, 50)
+        main_pane:apply(skin)
     end
 
     -- fade in
-    table.insert(skin.destination, { id = op.image.black, loop = -1, dst = {
+    table.insert(skin.destination, { id = prop.image.black, loop = -1, dst = {
         { time =   0, x = 0, y = 0, w = header.w, h = header.h, a = 255 },
         { time = 250, x = 0, y = 0, w = header.w, h = header.h, a = 0 },
     }})
     -- fade out
-    table.insert(skin.destination, { id = op.image.black, loop = 500, timer = op.timer.fadeout, dst = {
+    table.insert(skin.destination, { id = prop.image.black, loop = 500, timer = prop.timer.fadeout, dst = {
         { time =   0, x = 0, y = 0, w = header.w, h = header.h, a = 0 },
         { time = 500, x = 0, y = 0, w = header.w, h = header.h, a = 255 },
     }})

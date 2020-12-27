@@ -5,7 +5,7 @@
 -- * beatoraja dst tables
 -- * functions of the form `func(skin, origin_x, origin_y)`
 
-local skin_object = {
+local SkinObject = {
     origin_x = 0, origin_y = 0, dst = {},
 
     apply = function (self, skin)
@@ -40,11 +40,10 @@ local skin_object = {
     end,
 }
 
-function skin_object.new(dst, x, y)
-    return {
-        origin_x = x, origin_y = y, dst = dst,
-        apply = skin_object.apply
-    }
+function SkinObject:new(dst, x, y)
+    local obj = { origin_x = x, origin_y = y, dst = dst }
+    local meta = { __index = self }
+    return setmetatable(obj, meta)
 end
 
-return skin_object
+return SkinObject

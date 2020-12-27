@@ -1,5 +1,4 @@
 local prop = require("prop")
-local skin_object = require("skin_object")
 
 local util = require("result/util")
 
@@ -84,36 +83,36 @@ local function main_pane(t)
         { id = "txt_bad",    dst = {{ x = judge_x, y = 181, w = 62, h = 14 }} },
         { id = "txt_poor",   dst = {{ x = judge_x, y = 147, w = 62, h = 14 }} },
 
-        { id = "grade_aaa", op = { prop.opt.now_aaa_1p }, dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_aa",  op = { prop.opt.now_aa_1p },  dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_a",   op = { prop.opt.now_a_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_b",   op = { prop.opt.now_b_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_c",   op = { prop.opt.now_c_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_d",   op = { prop.opt.now_d_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_e",   op = { prop.opt.now_e_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
-        { id = "grade_f",   op = { prop.opt.now_f_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_aaa", op = { prop.op.now_aaa_1p }, dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_aa",  op = { prop.op.now_aa_1p },  dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_a",   op = { prop.op.now_a_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_b",   op = { prop.op.now_b_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_c",   op = { prop.op.now_c_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_d",   op = { prop.op.now_d_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_e",   op = { prop.op.now_e_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
+        { id = "grade_f",   op = { prop.op.now_f_1p },   dst = {{ x = 25, y = 762, w = 448, h = 132 }} },
 
         { id = "gaugegraph", blend = 2, dst = {
             { x = 32, y = 711, w = 455, h = 241, },
         } },
 
-        { id = "s_grade_aaa", op = { prop.opt.now_aaa_1p },  dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_aa",  op = { prop.opt.now_aa_1p },   dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_a",   op = { prop.opt.now_a_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_b",   op = { prop.opt.now_b_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_c",   op = { prop.opt.now_c_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_d",   op = { prop.opt.now_d_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_e",   op = { prop.opt.now_e_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_f",   op = { prop.opt.now_f_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_aaa", op = { prop.op.now_aaa_1p },  dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_aa",  op = { prop.op.now_aa_1p },   dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_a",   op = { prop.op.now_a_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_b",   op = { prop.op.now_b_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_c",   op = { prop.op.now_c_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_d",   op = { prop.op.now_d_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_e",   op = { prop.op.now_e_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_f",   op = { prop.op.now_f_1p },    dst = {{ x = 334, y = 568, w = 152, h = 28 }} },
 
-        { id = "s_grade_aaa", op = { prop.opt.best_aaa_1p }, dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_aa",  op = { prop.opt.best_aa_1p },  dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_a",   op = { prop.opt.best_a_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_b",   op = { prop.opt.best_b_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_c",   op = { prop.opt.best_c_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_d",   op = { prop.opt.best_d_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_e",   op = { prop.opt.best_e_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
-        { id = "s_grade_f",   op = { prop.opt.best_f_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_aaa", op = { prop.op.best_aaa_1p }, dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_aa",  op = { prop.op.best_aa_1p },  dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_a",   op = { prop.op.best_a_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_b",   op = { prop.op.best_b_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_c",   op = { prop.op.best_c_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_d",   op = { prop.op.best_d_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_e",   op = { prop.op.best_e_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
+        { id = "s_grade_f",   op = { prop.op.best_f_1p },   dst = {{ x = 180, y = 568, w = 152, h = 28 }} },
 
         { id = "best_clear",    dst = {{ x = 180, y = 629, w = 152, h = 24 }} },
         { id = "konkai_clear",  dst = {{ x = 334, y = 629, w = 152, h = 24 }} },
@@ -135,11 +134,11 @@ local function main_pane(t)
 
         -- update_clear apparently doesnt exist? TODO: find another way to do this
         -- TODO: make these float up and down (how tf does the acc property work)
-     -- { id = "update_indicator", op = { prop.opt.update_clear },      dst = {{ x = 473, y = 626, w = 28, h = 30 }} },
-        { id = "update_indicator", op = { prop.opt.update_scorerank },  dst = {{ x = 473, y = 567, w = 28, h = 30 }} },
-        { id = "update_indicator", op = { prop.opt.update_score },      dst = {{ x = 473, y = 508, w = 28, h = 30 }} },
-        { id = "update_indicator", op = { prop.opt.update_misscount },  dst = {{ x = 473, y = 449, w = 28, h = 30 }} },
-        { id = "update_indicator", op = { prop.opt.update_target },     dst = {{ x = 473, y = 390, w = 28, h = 30 }} },
+     -- { id = "update_indicator", op = { prop.op.update_clear },      dst = {{ x = 473, y = 626, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.op.update_scorerank },  dst = {{ x = 473, y = 567, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.op.update_score },      dst = {{ x = 473, y = 508, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.op.update_misscount },  dst = {{ x = 473, y = 449, w = 28, h = 30 }} },
+        { id = "update_indicator", op = { prop.op.update_target },     dst = {{ x = 473, y = 390, w = 28, h = 30 }} },
 
         function(skin, origin_x, origin_y)
             util.make_judge_graph(skin, origin_x + x.judge_graph, origin_y + 222)
