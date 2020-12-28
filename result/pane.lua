@@ -215,8 +215,8 @@ local function main_pane(t)
         { id = "bg_frame", dst = {{ x = frame_x, y =  0, w = frame_w, h = 952 }} },
         -- flashing animation
         { id = "bg_frame", loop = 1, dst = {
-            { time =    0, x = x.frame, y = 0, w = w.frame, h = 952, a = 150 },
-            { time = 2000, x = x.frame, y = 0, w = w.frame, h = 952, a =  64 },
+            { time =    0, x = frame_x, y = 0, w = frame_w, h = 952, a = 150 },
+            { time = 2000, x = frame_x, y = 0, w = frame_w, h = 952, a =  64 },
         } },
 
         SkinObject:new(gauge_graph(flip),     24, 672),
