@@ -10,7 +10,6 @@ local SkinObject = {
     origin_x = 0, origin_y = 0, dst = {},
 
     apply = function (self, skin)
-        print("#self.dst = " .. #self.dst)
         for _,item in pairs(self.dst) do
             if type(item) == "table" then
                 if item.is_skin_object then

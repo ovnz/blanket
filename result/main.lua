@@ -8,7 +8,7 @@
 
 -- issues:
 -- * update indicators should not be shown when mybest == current
--- * update indicator property for max combo might now be working properly
+-- * update indicator property for max combo might not be working properly
 
 local main_state = require("main_state")
 
@@ -16,21 +16,39 @@ local prop = require("prop")
 local SkinObject = require("skin_object")
 
 local util = require("result/util")
+
+local widget_property = {
+    { name = "OFF", op = prop:add_op("custom_off") },
+    { name = "GAUGE GRAPH",             op = prop:add_op("custom_gauge_graph")   },
+    { name = "SCORE INFO",              op = prop:add_op("custom_score_info")    },
+    { name = "MISSCOUNT / COMBO",       op = prop:add_op("custom_missctc_combo") },
+    { name = "JUDGE DETAIL",            op = prop:add_op("custom_judge_detail")  },
+    { name = "FAST/SLOW / COMBO BREAK", op = prop:add_op("custom_fs_cb")         },
+}
+
 local pane = require("result/pane")
 
 local property = {
     { name = "Left Pane", item = {
         { name = "OFF",    op = prop:add_op("left_pane_off")  },
         { name = "RESULT", op = prop:add_op("left_pane_main") },
+        { name = "CUSTOM", op = prop:add_op("left_pane_custom") },
     }},
     { name = "Right Pane", item = {
         { name = "OFF",    op = prop:add_op("right_pane_off")  },
         { name = "RESULT", op = prop:add_op("right_pane_main") },
+        { name = "CUSTOM", op = prop:add_op("right_pane_custom") },
     }},
     { name = "Use Stagefile as Background Image", item = {
         { name = "ON",  op = prop:add_op("stagefile_on")  },
         { name = "OFF", op = prop:add_op("stagefile_off") },
     }},
+    { name = "-------- CUSTOM PANE --------", item = {{ name = "---" }} },
+    { name = "Widget 1", item = widget_property },
+    { name = "Widget 2", item = widget_property },
+    { name = "Widget 3", item = widget_property },
+    { name = "Widget 4", item = widget_property },
+    { name = "Widget 5", item = widget_property },
 }
 
 local filepath = {
@@ -272,23 +290,24 @@ local function main()
         { id = "artist", dst = {{ x = 960, y = 52, w = 880, h = artist_size }} },
     }
 
-    local fast_count = main_state.number(prop.num.totalearly)
-    local slow_count = main_state.number(prop.num.totallate)
-    local note_count = util.total_played_notes()
-
-    local fast_w = fast_count / note_count
-    local slow_w = slow_count / note_count
+    local t = { flip = true }
 
     if skin_config.option["Left Pane"] == prop.prop.left_pane_main then
-        local t = { flip = 1, fast_w = fast_w, slow_w = slow_w }
         local main_pane = SkinObject:new(pane.main_pane(t), 0, 64)
         main_pane:apply(skin)
+    elseif skin_config.option["Left Pane"] == prop.prop.left_pane_custom then
+        local custom_pane = SkinObject:new(pane.custom(t), 0, 64)
+        custom_pane:apply(skin)
     end
 
+    t.flip = false
+
     if skin_config.option["Right Pane"] == prop.prop.right_pane_main then
-        local t = { fast_w = fast_w, slow_w = slow_w }
         local main_pane = SkinObject:new(pane.main_pane(t), 1408, 64)
         main_pane:apply(skin)
+    elseif skin_config.option["Right Pane"] == prop.prop.right_pane_custom then
+        local custom_pane = SkinObject:new(pane.custom(t), 1408, 64)
+        custom_pane:apply(skin)
     end
 
     -- fade in
