@@ -1,12 +1,14 @@
 -- information that should be in the main result pane but is still missing:
--- * next grade and diff from it
--- * score rate
--- * possibly playlevel, difficulty and notecount
+-- * playlevel, difficulty, notecount
 
 -- information that belongs to other panes:
 -- * ir info
 -- * detailed song info (genre etc)
 -- * more graphs
+
+-- issues:
+-- * update indicators should not be shown when mybest == current
+-- * update indicator property for max combo might now be working properly
 
 local main_state = require("main_state")
 
@@ -111,32 +113,45 @@ local function main()
         { id = "s_grade_e",   src = "grade",  x = 449, y = 178, w = 152, h = 28 },
         { id = "s_grade_f",   src = "grade",  x = 449, y = 207, w = 152, h = 28 },
 
-        { id = "bg_frame",   src = "parts",  x =   0, y =   0, w = 512, h = 952 },
-        { id = "bg_graph",   src = "parts",  x = 514, y = 360, w = 463, h = 256 },
-        { id = "bg_update1", src = "parts",  x = 514, y =   0, w = 463, h =  47 },
-        { id = "bg_update2", src = "parts",  x = 514, y =  49, w = 463, h =  47 },
-        { id = "bg_judge",   src = "parts",  x = 514, y =  98, w = 463, h = 194 },
-        { id = "bg_fs",      src = "parts",  x = 514, y = 294, w = 463, h =  64 },
+        { id = "t_grade_max", src = "parts", x = 1047, y = 205, w = 36, h = 12 },
+        { id = "t_grade_aaa", src = "parts", x = 1047, y = 218, w = 36, h = 12 },
+        { id = "t_grade_aa",  src = "parts", x = 1047, y = 218, w = 24, h = 12 },
+        { id = "t_grade_a",   src = "parts", x = 1047, y = 218, w = 12, h = 12 },
+        { id = "t_grade_b",   src = "parts", x = 1083, y = 218, w = 12, h = 12 },
+        { id = "t_grade_c",   src = "parts", x = 1095, y = 218, w = 12, h = 12 },
+        { id = "t_grade_d",   src = "parts", x = 1107, y = 218, w = 12, h = 12 },
+        { id = "t_grade_e",   src = "parts", x = 1119, y = 218, w = 12, h = 12 },
+        { id = "t_grade_f",   src = "parts", x = 1131, y = 218, w = 12, h = 12 },
 
-        { id = "txt_best",    src = "parts",  x =  981, y =   2, w = 127, h = 22 },
-        { id = "txt_konkai",  src = "parts",  x =  981, y =  27, w = 127, h = 22 },
+        { id = "bg_frame",      src = "parts", x =   0, y =   0, w = 512, h = 952 },
+        { id = "bg_graph",      src = "parts", x = 514, y = 360, w = 463, h = 256 },
+        { id = "bg_update1",    src = "parts", x = 514, y =   0, w = 463, h =  47 },
+        { id = "bg_update2",    src = "parts", x = 514, y =  49, w = 463, h =  47 },
+        { id = "bg_miss_combo", src = "parts", x = 514, y = 618, w = 463, h =  65 },
+        { id = "bg_judge",      src = "parts", x = 514, y =  98, w = 463, h = 194 },
+        { id = "bg_fs",         src = "parts", x = 514, y = 294, w = 463, h =  64 },
 
-        { id = "txt_clearty", src = "parts",  x =  981, y =  55, w = 128, h = 15 },
-        { id = "txt_grade",   src = "parts",  x =  981, y =  72, w = 128, h = 15 },
-        { id = "txt_score",   src = "parts",  x =  981, y =  89, w = 128, h = 15 },
-        { id = "txt_missct",  src = "parts",  x =  981, y = 106, w = 128, h = 15 },
-        { id = "txt_target",  src = "parts",  x =  981, y = 123, w = 128, h = 15 },
+        { id = "txt_best",    src = "parts", x =  981, y =   2, w = 127, h = 22 },
+        { id = "txt_konkai",  src = "parts", x =  981, y =  27, w = 127, h = 22 },
 
-        { id = "txt_judge",   src = "parts",  x =  980, y = 140, w = 141, h = 11 },
-        { id = "txt_cb",      src = "parts",  x =  979, y = 153, w = 120, h =  8 },
-        { id = "txt_fast",    src = "parts",  x = 1048, y = 163, w =  71, h = 17 },
-        { id = "txt_slow",    src = "parts",  x = 1048, y = 182, w =  71, h = 17 },
+        { id = "txt_clearty", src = "parts", x =  981, y =  55, w = 128, h = 15 },
+        { id = "txt_grade",   src = "parts", x =  981, y =  72, w = 128, h = 15 },
+        { id = "txt_score",   src = "parts", x =  981, y =  89, w = 128, h = 15 },
+        { id = "txt_target",  src = "parts", x =  981, y = 123, w = 128, h = 15 },
+
+        { id = "txt_missct",   src = "parts", x =  980, y = 105, w = 121, h =  9 },
+        { id = "txt_maxcombo", src = "parts", x =  980, y = 114, w = 115, h =  9 },
+        { id = "txt_judge",    src = "parts", x =  980, y = 140, w = 141, h = 11 },
+        { id = "txt_cb",       src = "parts", x =  979, y = 153, w = 120, h =  8 },
+        { id = "txt_fast",     src = "parts", x = 1048, y = 163, w =  71, h = 17 },
+        { id = "txt_slow",     src = "parts", x = 1048, y = 182, w =  71, h = 17 },
 
         { id = "txt_pgreat", src = "parts",  x = 980, y = 163, w = 62, h = 14 },
         { id = "txt_great",  src = "parts",  x = 980, y = 179, w = 62, h = 14 },
         { id = "txt_good",   src = "parts",  x = 980, y = 195, w = 62, h = 14 },
         { id = "txt_bad",    src = "parts",  x = 980, y = 211, w = 62, h = 14 },
         { id = "txt_poor",   src = "parts",  x = 980, y = 227, w = 62, h = 14 },
+        { id = "txt_judge_bg", src = "parts", x = 1010, y = 587, w = 86, h = 32 },
 
         { id = "konkai_clear", src = "parts", x = 986, y = 248, w = 152, h = 264,
             divy = 11, len = 11, ref = prop.num.clear },
@@ -149,30 +164,48 @@ local function main()
         { id = "judge_graph", src = "parts", x = 1396, y = 1, w = 150, h = 8 },
         { id = "judge_graph_border", src = "parts", x = 1394, y = 24, w = 154, h = 154 },
 
-        { id = "update_indicator", src = "parts", x = 979, y = 546, w = 28, h = 30 },
+        { id = "update_indicator",   src = "parts", x =  979, y = 546, w = 28, h = 30 },
+        { id = "noupdate_indicator", src = "parts", x = 1009, y = 546, w = 28, h = 30 },
+
+        { id = "dot",       src = "parts", x = 1272, y = 142, w =  3, h =  4 },
+        { id = "percent",   src = "parts", x = 1270, y = 147, w = 12, h = 12 },
+        { id = "slash",     src = "parts", x = 1286, y = 136, w = 14, h = 25 },
     }
 
     skin.value = {
+        { id = "konkai_rate", src = "parts", digit = 2, ref = prop.num.score_rate,
+          x = 1126, y = 185, w = 132, h = 12, divx = 11, zeropadding = 2 },
+        { id = "konkai_rate_dec", src = "parts", digit = 2, ref = prop.num.score_rate_afterdot,
+          x = 1126, y = 185, w = 132, h = 12, divx = 11, zeropadding = 2 },
+        { id = "best_rate", src = "parts", digit = 2, ref = prop.num.best_rate,
+          x = 1126, y = 185, w = 132, h = 12, divx = 11, zeropadding = 2 },
+        { id = "best_rate_dec", src = "parts", digit = 2, ref = prop.num.best_rate_afterdot,
+          x = 1126, y = 185, w = 132, h = 12, divx = 11, zeropadding = 2 },
+
         { id = "konkai_score",  src = "parts", digit = 4, ref = prop.num.score,
-          x = 1122, y = 3,  w = 264, h = 27,   divx = 11, zeropadding = 1 },
-        { id = "konkai_missct", src = "parts", digit = 4, ref = prop.num.misscount,
           x = 1122, y = 3,  w = 264, h = 27,   divx = 11, zeropadding = 1 },
         { id = "best_score",    src = "parts", digit = 4, ref = prop.num.highscore,
           x = 1122, y = 59, w = 242, h = 24,   divx = 11, zeropadding = 1 },
-        -- beatoraja does not seem to support best score misscount
-        -- { id = "best_missct",   src = "parts", digit = 4, ref = prop.num.best_missct,
-        --   x = 1122, y = 59, w = 242, h = 24,   divx = 11, zeropadding = 1 },
         { id = "target_score",  src = "parts", digit = 4, ref = prop.num.target_score,
           x = 1122, y = 31, w = 264, h = 27,   divx = 11, zeropadding = 1 },
         { id = "cb_count",      src = "parts", digit = 4, ref = prop.num.combobreak,
-          x = 1122, y =102, w = 264, h = 27,   divx = 11, align = 2},
+          x = 1122, y =102, w = 264, h = 27,   divx = 11, align = 2 },
+
+        { id = "combo",         src = "parts", digit = 4, ref = prop.num.maxcombo,
+          x = 1122, y = 102, w = 264, h = 27,   divx = 11 },
+        { id = "maxcombo",      src = "parts", digit = 4, ref = prop.num.totalnotes,
+          x = 1122, y =  84, w = 165, h = 17,   divx = 11 },
+        { id = "missct",        src = "parts", digit = 4, ref = prop.num.misscount,
+          x = 1122, y = 102, w = 264, h = 27,   divx = 11, zeropadding = 1 },
 
         { id = "best_diff",     src = "parts", digit = 5, ref = prop.num.diff_highscore,
-          x = 1126, y =135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+          x = 1126, y = 135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
         { id = "target_diff",   src = "parts", digit = 5, ref = prop.num.diff_targetscore,
-          x = 1126, y =135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+          x = 1126, y = 135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
         { id = "missct_diff",   src = "parts", digit = 5, ref = prop.num.diff_misscount,
-          x = 1126, y =160, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+          x = 1126, y = 160, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
+        { id = "combo_diff",    src = "parts", digit = 5, ref = prop.num.diff_maxcombo,
+          x = 1126, y = 135, w = 144, h = 24,   divx = 12, divy = 2, zeropadding = 4 },
 
         { id = "fs_fast",       src = "parts", digit = 3, ref = prop.num.totalearly,
           x = 1122, y = 84, w = 150, h = 17,   divx = 10, },

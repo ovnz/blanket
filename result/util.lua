@@ -9,6 +9,32 @@ local function total_played_notes()
          + main_state.number(prop.num.poor)
 end
 
+local function next_grade()
+    if     main_state.option(prop.op._1p_aaa) then return "max"
+    elseif main_state.option(prop.op._1p_aa)  then return "aaa"
+    elseif main_state.option(prop.op._1p_a)   then return "aa"
+    elseif main_state.option(prop.op._1p_b)   then return "a"
+    elseif main_state.option(prop.op._1p_c)   then return "b"
+    elseif main_state.option(prop.op._1p_d)   then return "c"
+    elseif main_state.option(prop.op._1p_e)   then return "d"
+    elseif main_state.option(prop.op._1p_f)   then return "e"
+    else return nil end
+end
+
+local function next_grade_diff()
+    local ex = main_state.number(prop.num.score)
+    local max = main_state.number(prop.num.maxscore)
+    local rate = ex / max
+    local nextrate
+    for n = 1, 9 do
+        if rate < n / 9 then
+            nextrate = n / 9
+            break
+        end
+    end
+    return math.floor(max * nextrate)
+end
+
 local function make_judge_graph(skin, centre_x, centre_y)
     -- local origin = { x = 1551 - 75, y = 269 - 4, w = 150, h = 8 }
     local origin = { x = centre_x - 75, y = centre_y - 4, w = 150, h = 8 }
@@ -62,4 +88,6 @@ end
 return {
     total_played_notes = total_played_notes,
     make_judge_graph = make_judge_graph,
+    next_grade = next_grade,
+    next_grade_diff = next_grade_diff,
 }
