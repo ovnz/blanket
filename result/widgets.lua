@@ -207,41 +207,15 @@ local function fs_combo_break(t)
     }
 end
 
-local function main_pane(t)
-    local frame_x, frame_w = 0, 512
-
-    if t.flip then
-        frame_x, frame_w = frame_w, -frame_w
-    end
-
-    return {
-        { id = "bg_frame", dst = {{ x = frame_x, y =  0, w = frame_w, h = 952 }} },
-        -- flashing animation
-        { id = "bg_frame", loop = 1, dst = {
-            { time =    0, x = frame_x, y = 0, w = frame_w, h = 952, a = 150 },
-            { time = 2000, x = frame_x, y = 0, w = frame_w, h = 952, a =  64 },
-        } },
-
-        SkinObject:new(gauge_graph(t),     24, 672),
-        SkinObject:new(score_info(t),      24, 405),
-        SkinObject:new(misscount_combo(t), 24, 319),
-        SkinObject:new(judge_detail(t),    24, 110),
-        SkinObject:new(fs_combo_break(t),  24,  24),
-    }
-end
-
 return {
-    pane = main_pane,
-    objects = {
-        gauge_graph     = { obj = gauge_graph,     dim = { w = 463, h = 256 },
-                                op = prop.prop.custom_gauge_graph  },
-        score_info      = { obj = score_info,      dim = { w = 463, h = 259 },
-                                op = prop.prop.custom_score_info   },
-        misscount_combo = { obj = misscount_combo, dim = { w = 463, h =  71 },
-                                op = prop.prop.custom_missct_combo },
-        judge_detail    = { obj = judge_detail,    dim = { w = 463, h = 194 },
-                                op = prop.prop.custom_judge_detail },
-        fs_combo_break  = { obj = fs_combo_break,  dim = { w = 463, h =  64 },
-                                op = prop.prop.custom_fs_cb        },
-    },
+    gauge_graph     = { f = gauge_graph,     dim = { w = 463, h = 256 },
+                            op = prop.prop.custom_gauge_graph  },
+    score_info      = { f = score_info,      dim = { w = 463, h = 259 },
+                            op = prop.prop.custom_score_info   },
+    misscount_combo = { f = misscount_combo, dim = { w = 463, h =  71 },
+                            op = prop.prop.custom_missct_combo },
+    judge_detail    = { f = judge_detail,    dim = { w = 463, h = 194 },
+                            op = prop.prop.custom_judge_detail },
+    fs_combo_break  = { f = fs_combo_break,  dim = { w = 463, h =  64 },
+                            op = prop.prop.custom_fs_cb        },
 }

@@ -9,6 +9,7 @@ local function total_played_notes()
          + main_state.number(prop.num.poor)
 end
 
+-- returns next grade
 local function next_grade()
     if     main_state.option(prop.op._1p_aaa) then return "max"
     elseif main_state.option(prop.op._1p_aa)  then return "aaa"
@@ -21,6 +22,7 @@ local function next_grade()
     else return nil end
 end
 
+-- returns score difference from next grade
 local function next_grade_diff()
     local ex = main_state.number(prop.num.score)
     local max = main_state.number(prop.num.maxscore)
@@ -35,8 +37,8 @@ local function next_grade_diff()
     return math.floor(max * nextrate)
 end
 
+-- generates judge graph centred on the specified coordinates
 local function make_judge_graph(skin, centre_x, centre_y)
-    -- local origin = { x = 1551 - 75, y = 269 - 4, w = 150, h = 8 }
     local origin = { x = centre_x - 75, y = centre_y - 4, w = 150, h = 8 }
     local start_angle = 90
 

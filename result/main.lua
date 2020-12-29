@@ -21,12 +21,13 @@ local widget_property = {
     { name = "OFF", op = prop:add_op("custom_off") },
     { name = "GAUGE GRAPH",             op = prop:add_op("custom_gauge_graph")   },
     { name = "SCORE INFO",              op = prop:add_op("custom_score_info")    },
-    { name = "MISSCOUNT / COMBO",       op = prop:add_op("custom_missctc_combo") },
+    { name = "MISSCOUNT / COMBO",       op = prop:add_op("custom_missct_combo") },
     { name = "JUDGE DETAIL",            op = prop:add_op("custom_judge_detail")  },
     { name = "FAST/SLOW / COMBO BREAK", op = prop:add_op("custom_fs_cb")         },
 }
 
-local pane = require("result/pane")
+-- this should be called after prop:add_op has been called for widget ops
+local panes = require("result/panes")
 
 local property = {
     { name = "Left Pane", item = {
@@ -293,21 +294,21 @@ local function main()
     local t = { flip = true }
 
     if skin_config.option["Left Pane"] == prop.prop.left_pane_main then
-        local main_pane = SkinObject:new(pane.main_pane(t), 0, 64)
-        main_pane:apply(skin)
+        local pane = SkinObject:new(panes.main_pane(t), 0, 64)
+        pane:apply(skin)
     elseif skin_config.option["Left Pane"] == prop.prop.left_pane_custom then
-        local custom_pane = SkinObject:new(pane.custom(t), 0, 64)
-        custom_pane:apply(skin)
+        local pane = SkinObject:new(panes.custom(t), 0, 64)
+        pane:apply(skin)
     end
 
     t.flip = false
 
     if skin_config.option["Right Pane"] == prop.prop.right_pane_main then
-        local main_pane = SkinObject:new(pane.main_pane(t), 1408, 64)
-        main_pane:apply(skin)
+        local pane = SkinObject:new(panes.main_pane(t), 1408, 64)
+        pane:apply(skin)
     elseif skin_config.option["Right Pane"] == prop.prop.right_pane_custom then
-        local custom_pane = SkinObject:new(pane.custom(t), 1408, 64)
-        custom_pane:apply(skin)
+        local pane = SkinObject:new(panes.custom(t), 1408, 64)
+        pane:apply(skin)
     end
 
     -- fade in

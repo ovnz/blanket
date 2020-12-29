@@ -1,3 +1,6 @@
+-- table of beatoraja property numbers, custom ones can also be generated with
+-- `prop:add_op("name")` (returns op number)
+
 local image = {
     stagefile = -100,
     backbmp = -101,

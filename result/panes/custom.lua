@@ -4,7 +4,7 @@ local prop = require("prop")
 local SkinObject = require("skin_object")
 
 local util = require("result/util")
-local mainpane = require("result/pane/mainpane")
+local widgets = require("result/widgets")
 
 local function append_all(t1, t2)
     for _, v in pairs(t2) do
@@ -13,13 +13,10 @@ local function append_all(t1, t2)
 end
 
 local function get_widgets()
-    local all = {}
-    append_all(all, mainpane.objects)
-
     -- returns the widget corresponding to the specified op
     local function find(op)
         if op == nil then return nil end
-        for k, widget in pairs(all) do
+        for k, widget in pairs(widgets) do
             if widget.op == op then return widget end
         end
         return nil
@@ -30,7 +27,7 @@ local function get_widgets()
         else return op end
     end
 
-    local widgets = {
+    return {
         find(check_op(skin_config.option["Widget 1"])),
         find(check_op(skin_config.option["Widget 2"])),
         find(check_op(skin_config.option["Widget 3"])),
@@ -38,7 +35,6 @@ local function get_widgets()
         find(check_op(skin_config.option["Widget 5"])),
     }
 
-    return widgets
 end
 
 local function custom_pane(t)
@@ -48,20 +44,20 @@ local function custom_pane(t)
         frame_x, frame_w = frame_w, -frame_w
     end
 
-    local widgets = get_widgets()
+    local self_widgets = get_widgets()
 
     local widget_h = 0
-    for _, widget in pairs(widgets) do
+    for _, widget in pairs(self_widgets) do
         widget_h = widget_h + widget.dim.h
     end
 
-    local each_h = math.max(0, 904 - widget_h) / (math.max(1, #widgets - 1))
+    local each_h = math.max(0, 904 - widget_h) / (math.max(1, #self_widgets - 1))
 
     local objs = {}
 
     local y = 928
-    for _, widget in pairs(widgets) do
-        table.insert(objs, SkinObject:new(widget.obj(t), 24, y - widget.dim.h))
+    for _, widget in pairs(self_widgets) do
+        table.insert(objs, SkinObject:new(widget.f(t), 24, y - widget.dim.h))
         y = y - widget.dim.h - each_h
     end
 
