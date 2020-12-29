@@ -89,15 +89,15 @@ local function score_info(t)
         { id = "best_diff",   dst = {{ x = 375, y = 59, w = 12, h = 12 }} },
         { id = "target_diff", dst = {{ x = 375, y =  0, w = 12, h = 12 }} },
 
-        { id = "best_rate",       dst = {{ x = 199, y = 118, w = 12, h = 12 }} },
-        { id = "dot",             dst = {{ x = 223, y = 118, w =  3, h =  4 }} },
-        { id = "best_rate_dec",   dst = {{ x = 226, y = 118, w = 12, h = 12 }} },
-        { id = "percent",         dst = {{ x = 250, y = 118, w = 12, h = 12 }} },
+        { id = "best_rate",       dst = {{ x = 199 + 2, y = 118, w = 12, h = 12 }} },
+        { id = "dot",             dst = {{ x = 223 + 2, y = 118, w =  3, h =  4 }} },
+        { id = "best_rate_dec",   dst = {{ x = 226 + 2, y = 118, w = 12, h = 12 }} },
+        { id = "percent",         dst = {{ x = 250 + 2, y = 118, w = 12, h = 12 }} },
 
-        { id = "konkai_rate",     dst = {{ x = 352, y = 118, w = 12, h = 12 }} },
-        { id = "dot",             dst = {{ x = 376, y = 118, w =  3, h =  4 }} },
-        { id = "konkai_rate_dec", dst = {{ x = 379, y = 118, w = 12, h = 12 }} },
-        { id = "percent",         dst = {{ x = 403, y = 118, w = 12, h = 12 }} },
+        { id = "konkai_rate",     dst = {{ x = 352 + 2, y = 118, w = 12, h = 12 }} },
+        { id = "dot",             dst = {{ x = 376 + 2, y = 118, w =  3, h =  4 }} },
+        { id = "konkai_rate_dec", dst = {{ x = 379 + 2, y = 118, w = 12, h = 12 }} },
+        { id = "percent",         dst = {{ x = 403 + 2, y = 118, w = 12, h = 12 }} },
     }
 end
 
@@ -131,7 +131,8 @@ local function misscount_combo(t)
         { id = "combo_diff",   dst = {{ x = combo_diff_x,  y = 0, w = 12, h = 12 }} },
 
         { id = update_missct,  dst = {{ x = missct_up_x,   y = 23, w = 28, h = 30 }} },
-        { id = update_combo,   dst = {{ x = combo_up_x,    y = 23, w = 28, h = 30 }} },
+        -- disabled for the time being (see main.lua head comment)
+        -- { id = update_combo,   dst = {{ x = combo_up_x,    y = 23, w = 28, h = 30 }} },
     }
 end
 
