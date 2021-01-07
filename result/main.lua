@@ -104,6 +104,8 @@ local function main()
           outlineWidth = 2, align = 1, ref = prop.text.fulltitle,  overflow = 1, },
         { id = "artist", font = "artist", size = artist_size, outlineColor = "000000ff",
           outlineWidth = 2, align = 1, ref = prop.text.fullartist, overflow = 1, },
+        { id = "folder", font = "title", size = artist_size, outlineColor = "000000ff",
+          outlineWidth = 1, align = 1, ref = prop.text.table_full, overflow = 1, },
     }
 
     skin.image = {
@@ -289,6 +291,7 @@ local function main()
 
         { id = "title",  dst = {{ x = 960, y = 80, w = 880, h = title_size }} },
         { id = "artist", dst = {{ x = 960, y = 52, w = 880, h = artist_size }} },
+        { id = "folder", dst = {{ x = 960, y = 125, w = 880, h = artist_size }} },
     }
 
     local t = { flip = true }
