@@ -1,5 +1,4 @@
--- information that should be in the main result pane but is still missing:
--- * playlevel, difficulty, notecount
+-- main result pane is mostly finished now
 
 -- information that belongs to other panes:
 -- * ir info
@@ -9,6 +8,7 @@
 -- issues:
 -- * update indicators should not be shown when mybest == current
 -- * update indicator property for max combo might not be working properly
+-- * font weirdness
 
 local main_state = require("main_state")
 
@@ -92,8 +92,9 @@ local function main()
     }
 
     skin.font = {
-        { id = "title", path = "fonts/rounded-mgenplus-1p-regular.ttf" },
+        { id = "title",  path = "fonts/rounded-mgenplus-1p-regular.ttf" },
         { id = "artist", path = "fonts/mplus-2c-black.ttf" },
+        { id = "lvl",    path = "fonts/MPLUSRounded1c-Medium.ttf" },
     }
 
     local title_size  = 38
@@ -104,6 +105,8 @@ local function main()
           outlineWidth = 2, align = 1, ref = prop.text.fulltitle,  overflow = 1, },
         { id = "artist", font = "artist", size = artist_size, outlineColor = "000000ff",
           outlineWidth = 2, align = 1, ref = prop.text.fullartist, overflow = 1, },
+        -- { id = "lvl",    font = "lvl", size = artist_size, outlineColor = "000000ff",
+        --   align = 1,     ref = prop.text.fullartist, overflow = 1, },
     }
 
     skin.image = {
@@ -149,6 +152,8 @@ local function main()
         { id = "bg_miss_combo", src = "parts", x = 514, y = 618, w = 463, h =  65 },
         { id = "bg_judge",      src = "parts", x = 514, y =  98, w = 463, h = 194 },
         { id = "bg_fs",         src = "parts", x = 514, y = 294, w = 463, h =  64 },
+        { id = "bg_lvl_2p",     src = "parts", x = 514, y = 685, w = 446, h =  40 },
+        { id = "bg_lvl_1p",     src = "parts", x = 514, y = 727, w = 446, h =  40 },
 
         { id = "txt_best",    src = "parts", x =  981, y =   2, w = 127, h = 22 },
         { id = "txt_konkai",  src = "parts", x =  981, y =  27, w = 127, h = 22 },

@@ -7,24 +7,69 @@ local util = require("result/util")
 
 local function gauge_graph(t)
     local bg_x, bg_w = 0, 463
+    local bg_lvl_id = "bg_lvl_2p"
 
     if t.flip then
         bg_x, bg_w = bg_w, -bg_w
+        bg_lvl_id = "bg_lvl_1p"
+    end
+
+    local difficulty = "SP"
+    if main_state.option(prop.op._10keysong) or main_state.option(prop.op._14keysong) then
+        difficulty = "DP"
+    end
+
+    local r, g, b = 255, 64, 64
+    if main_state.option(prop.op.difficulty1) then
+        r, g, b = 64, 255, 64
+        difficulty = difficulty .. "B"
+    elseif main_state.option(prop.op.difficulty2) then
+        r, g, b = 64, 200, 255
+        difficulty = difficulty .. "N"
+    elseif main_state.option(prop.op.difficulty3) then
+        r, g, b = 255, 200, 64
+        difficulty = difficulty .. "H"
+    elseif main_state.option(prop.op.difficulty4) then
+        r, g, b = 255, 64, 64
+        difficulty = difficulty .. "A"
+    elseif main_state.option(prop.op.difficulty5) then
+        r, g, b = 255, 64, 200
+        difficulty = difficulty .. "L"
+    elseif main_state.option(prop.op.difficulty0) then
+        r, g, b = 200, 200, 200
+        difficulty = difficulty .. "?"
+    end
+
+    local level = main_state.text(prop.text.table_level)
+    if "" == level then level = main_state.number(prop.num.playlevel) end
+    level = "LEVEL " .. level
+
+    local insert_text = function(skin, dx, dy)
+        table.insert(skin.text,
+            { id = "difficulty", font = "lvl", size = 30, align = 1, constantText = difficulty })
+        table.insert(skin.text,
+            { id = "lvl",        font = "lvl", size = 30, align = 0, constantText = level })
     end
 
     return {
-        { id = "bg_graph",   dst = {{ x = bg_x, y = 0, w = bg_w, h = 256 }} },
+        { id = "bg_graph",  dst = {{ x = bg_x, y = 0, w = bg_w, h = 256 }} },
+        { id = bg_lvl_id,   dst = {{ x = 8, y = 8, w = 446, h = 40, r = r, g = g, b = b }} },
 
-        { id = "grade_aaa", op = { prop.op.now_aaa_1p }, dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_aa",  op = { prop.op.now_aa_1p },  dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_a",   op = { prop.op.now_a_1p },   dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_b",   op = { prop.op.now_b_1p },   dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_c",   op = { prop.op.now_c_1p },   dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_d",   op = { prop.op.now_d_1p },   dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_e",   op = { prop.op.now_e_1p },   dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
-        { id = "grade_f",   op = { prop.op.now_f_1p },   dst = {{ x = 7, y = 60, w = 448, h = 132 }} },
+        insert_text,
 
-        { id = "gaugegraph", blend = 2, dst = {{ x = 6, y = 7, w = 455, h = 241, }} },
+        { id = "difficulty", dst = {{ x =  48, y = 9, w =  75, h = 30, r = r, g = g, b = b }} },
+        { id = "lvl",        dst = {{ x = 108, y = 9, w = 335, h = 30, r = r, g = g, b = b }} },
+
+        { id = "grade_aaa", op = { prop.op.now_aaa_1p }, dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_aa",  op = { prop.op.now_aa_1p },  dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_a",   op = { prop.op.now_a_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_b",   op = { prop.op.now_b_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_c",   op = { prop.op.now_c_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_d",   op = { prop.op.now_d_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_e",   op = { prop.op.now_e_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+        { id = "grade_f",   op = { prop.op.now_f_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
+
+        { id = "gaugegraph", blend = 2, dst = {{ x = 8, y = 56, w = 446, h = 192, }} },
     }
 end
 
