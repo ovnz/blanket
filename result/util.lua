@@ -22,6 +22,30 @@ local function next_grade()
     else return nil end
 end
 
+local function grade()
+    if     main_state.option(prop.op.now_aaa_1p) then return 7
+    elseif main_state.option(prop.op.now_aa_1p)  then return 6
+    elseif main_state.option(prop.op.now_a_1p)   then return 5
+    elseif main_state.option(prop.op.now_b_1p)   then return 4
+    elseif main_state.option(prop.op.now_c_1p)   then return 3
+    elseif main_state.option(prop.op.now_d_1p)   then return 2
+    elseif main_state.option(prop.op.now_e_1p)   then return 1
+    elseif main_state.option(prop.op.now_f_1p)   then return 0
+    else return nil end
+end
+
+local function best_grade()
+    if     main_state.option(prop.op.best_aaa_1p) then return 7
+    elseif main_state.option(prop.op.best_aa_1p)  then return 6
+    elseif main_state.option(prop.op.best_a_1p)   then return 5
+    elseif main_state.option(prop.op.best_b_1p)   then return 4
+    elseif main_state.option(prop.op.best_c_1p)   then return 3
+    elseif main_state.option(prop.op.best_d_1p)   then return 2
+    elseif main_state.option(prop.op.best_e_1p)   then return 1
+    elseif main_state.option(prop.op.best_f_1p)   then return 0
+    else return nil end
+end
+
 -- returns score difference from next grade
 local function next_grade_diff()
     local ex = main_state.number(prop.num.score)
@@ -92,4 +116,6 @@ return {
     make_judge_graph = make_judge_graph,
     next_grade = next_grade,
     next_grade_diff = next_grade_diff,
+    grade = grade,
+    best_grade = best_grade,
 }

@@ -83,10 +83,14 @@ local function score_info(t)
 
     local update_clear, update_scorerank, update_score, update_target
         = "noupdate_indicator", "noupdate_indicator", "noupdate_indicator", "noupdate_indicator"
-    if main_state.number(prop.num.clear) > main_state.number(prop.num.target_clear) then update_clear = "update_indicator" end
-    if main_state.option(prop.op.update_scorerank) then update_scorerank = "update_indicator" end
-    if main_state.option(prop.op.update_score) then update_score = "update_indicator" end
-    if main_state.option(prop.op.update_target) then update_target = "update_indicator" end
+    if main_state.number(prop.num.clear) > main_state.number(prop.num.target_clear) then update_clear = "update_indicator"
+        elseif main_state.number(prop.num.clear) == main_state.number(prop.num.target_clear) then update_clear = "trans" end
+    if util.grade() > util.best_grade() then update_scorerank = "update_indicator"
+        elseif util.grade() == util.best_grade() then update_scorerank = "trans" end
+    if main_state.option(prop.op.update_score) then update_score = "update_indicator"
+        elseif main_state.number(prop.num.score) == main_state.number(prop.num.highscore) then update_score = "trans" end
+    if main_state.option(prop.op.update_target) then update_target = "update_indicator"
+        elseif main_state.number(prop.num.score) == main_state.number(prop.num.target_score) then update_target = "trans" end
 
     return {
         { id = "bg_update2", dst = {{ x = bg_x, y =   6, w = bg_w, h = 47 }} },

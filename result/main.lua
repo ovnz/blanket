@@ -6,7 +6,6 @@
 -- * more graphs
 
 -- issues:
--- * update indicators should not be shown when mybest == current
 -- * update indicator property for max combo might not be working properly
 -- * font weirdness
 
@@ -119,6 +118,8 @@ local function main()
 
     skin.image = {
         { id = "vignette", src = "vignette", x = 0, y = 0, w = header.w, h = header.h },
+
+        { id = "trans", src = "parts", x = 0 , y = 0 , w = 1, h = 1 },
 
         { id = "bg_aaa",    src = "bg_aaa",     x = 0, y = 0, w = -1, h = -1 },
         { id = "bg_aa",     src = "bg_aa",      x = 0, y = 0, w = -1, h = -1 },
