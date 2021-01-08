@@ -30,19 +30,26 @@ local widget_property = {
 local panes = require("result/panes")
 
 local property = {
-    { name = "Left Pane", item = {
+    { name = "Left Pane", def = "RESULT", item = {
         { name = "OFF",    op = prop:add_op("left_pane_off")  },
         { name = "RESULT", op = prop:add_op("left_pane_main") },
         { name = "CUSTOM", op = prop:add_op("left_pane_custom") },
     }},
-    { name = "Right Pane", item = {
+    { name = "Right Pane", def = "OFF", item = {
         { name = "OFF",    op = prop:add_op("right_pane_off")  },
         { name = "RESULT", op = prop:add_op("right_pane_main") },
         { name = "CUSTOM", op = prop:add_op("right_pane_custom") },
     }},
-    { name = "Use Stagefile as Background Image", item = {
+    { name = "Use Stagefile as Background Image", def = "OFF", item = {
         { name = "ON",  op = prop:add_op("stagefile_on")  },
         { name = "OFF", op = prop:add_op("stagefile_off") },
+    }},
+    { name = "Add Outline Around Title", def = "OFF", item = {
+        { name = "OFF",  op = prop:add_op("outline_off")  },
+        { name = "weight 1",  op = prop:add_op("outline_1")  },
+        { name = "weight 2",  op = prop:add_op("outline_2")  },
+        { name = "weight 3",  op = prop:add_op("outline_3")  },
+        { name = "weight 4",  op = prop:add_op("outline_4")  },
     }},
     { name = "-------- CUSTOM PANE --------", item = {{ name = "---" }} },
     { name = "Widget 1", item = widget_property },
@@ -50,6 +57,7 @@ local property = {
     { name = "Widget 3", item = widget_property },
     { name = "Widget 4", item = widget_property },
     { name = "Widget 5", item = widget_property },
+    { name = "-----------------------------", item = {{ name = "---" }} },
 }
 
 local filepath = {
@@ -291,10 +299,33 @@ local function main()
         }},
 
         { id = "vignette",   dst = {{ x = 0, y = 0, w = header.w, h = header.h }} },
-
-        { id = "title",  dst = {{ x = 960, y = 80, w = 880, h = title_size }} },
-        { id = "artist", dst = {{ x = 960, y = 52, w = 880, h = artist_size }} },
     }
+
+    local text_x, title_y, artist_y = 960, 80, 52
+
+    if skin_config.option["Add Outline Around Title"] ~= prop.prop.outline_off then
+        local outline_weight = 1
+        if skin_config.option["Add Outline Around Title"] == prop.prop.outline_2 then
+            outline_weight = 2
+        elseif skin_config.option["Add Outline Around Title"] == prop.prop.outline_3 then
+            outline_weight = 3
+        elseif skin_config.option["Add Outline Around Title"] == prop.prop.outline_4 then
+            outline_weight = 4
+        end
+        for angle=0,360,12 do
+            local dx = math.cos(math.rad(angle)) * outline_weight
+            local dy = math.sin(math.rad(angle)) * outline_weight
+            table.insert(skin.destination,
+                { id = "title",  dst = {{ x = text_x + dx, y = title_y + dy, w = 880, h = title_size, r = 0, g = 0, b = 0 }} })
+            table.insert(skin.destination,
+                { id = "artist", dst = {{ x = text_x + dx, y = artist_y + dy, w = 880, h = artist_size, r = 0, g = 0, b = 0 }} })
+        end
+    end
+
+    table.insert(skin.destination,
+        { id = "title",  dst = {{ x = text_x, y = title_y, w = 880, h = title_size }} })
+    table.insert(skin.destination,
+        { id = "artist", dst = {{ x = text_x, y = artist_y, w = 880, h = artist_size }} })
 
     local t = { flip = true }
 
