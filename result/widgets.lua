@@ -154,7 +154,7 @@ local function misscount_combo(t)
     if t.flip then
         bg_x, bg_w = bg_w, -bg_w
         missct_x, combo_x, missct_num_x, combo_num_x, missct_diff_x, combo_diff_x, missct_up_x,    combo_up_x
-        = 303,    69,      303,          24,          335,           99,           combo_up_x - 1, missct_up_x
+        = 289,    55,      303,          24,          321,           85,           combo_up_x - 1, missct_up_x
     end
 
     local update_missct, update_combo = "noupdate_indicator", "noupdate_indicator"
