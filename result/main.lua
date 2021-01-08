@@ -7,7 +7,6 @@
 
 -- issues:
 -- * update indicator property for max combo might not be working properly
--- * font weirdness
 
 local main_state = require("main_state")
 
@@ -51,6 +50,10 @@ local property = {
         { name = "weight 4",  op = prop:add_op("outline_4")  },
     }},
     { name = "-------- CUSTOM PANE --------", item = {{ name = "---" }} },
+    { name = "Layout Style", item = {
+        { name = "Normal", op = prop:add_op("custom_layout_normal") },
+        { name = "Spread", op = prop:add_op("custom_layout_spread") },
+    }},
     { name = "Widget 1", item = widget_property },
     { name = "Widget 2", item = widget_property },
     { name = "Widget 3", item = widget_property },

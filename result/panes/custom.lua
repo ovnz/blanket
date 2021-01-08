@@ -58,7 +58,11 @@ local function custom_pane(t)
     local y = 928
     for _, widget in pairs(self_widgets) do
         table.insert(objs, SkinObject:new(widget.f(t), 24, y - widget.dim.h))
-        y = y - widget.dim.h - each_h
+        if skin_config.option["Layout Style"] == prop.prop.custom_layout_normal then
+            y = y - widget.dim.h - 12
+        elseif skin_config.option["Layout Style"] == prop.prop.custom_layout_spread then
+            y = y - widget.dim.h - each_h
+        end
     end
 
     local obj = {
