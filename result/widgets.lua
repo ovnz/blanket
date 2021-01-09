@@ -144,8 +144,8 @@ local function score_info(t)
         { id = update_score,     dst = {{ x = up_x, y =  74, w = 28, h = 30 }} },
         { id = update_target,    dst = {{ x = up_x, y =  15, w = 28, h = 30 }} },
 
-        { id = "best_diff",   dst = {{ x = 375, y = 59, w = 12, h = 12 }} },
-        { id = "target_diff", dst = {{ x = 375, y =  0, w = 12, h = 12 }} },
+        { id = "best_diff",   dst = {{ x = 355, y = 59, w = 12, h = 12 }} },
+        { id = "target_diff", dst = {{ x = 355, y =  0, w = 12, h = 12 }} },
 
         { id = "best_rate",       dst = {{ x = 199 + 2, y = 118, w = 12, h = 12 }} },
         { id = "dot",             dst = {{ x = 223 + 2, y = 118, w =  3, h =  4 }} },
