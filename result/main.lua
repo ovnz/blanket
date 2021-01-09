@@ -25,8 +25,6 @@ local widget_property = {
     { name = "FAST/SLOW / COMBO BREAK", op = prop:custom("custom_fs_cb")         },
 }
 
--- this should be called after prop:custom has been called for widget ops
-
 local property = {
     { name = "Left Pane", def = "RESULT", item = {
         { name = "OFF",    op = prop:custom("left_pane_off")  },
@@ -37,6 +35,10 @@ local property = {
         { name = "OFF",    op = prop:custom("right_pane_off")  },
         { name = "RESULT", op = prop:custom("right_pane_main") },
         { name = "CUSTOM", op = prop:custom("right_pane_custom") },
+    }},
+    { name = "Dark Mode", def = "OFF", item = {
+        { name = "OFF",    op = prop:custom("dark_mode_off") },
+        { name = "ON",     op = prop:custom("dark_mode_on")  },
     }},
     { name = "Use Stagefile as Background Image", def = "OFF", item = {
         { name = "ON",  op = prop:custom("stagefile_on")  },
@@ -331,7 +333,11 @@ local function main()
     table.insert(skin.destination,
         { id = "artist", dst = {{ x = text_x, y = artist_y, w = 880, h = artist_size }} })
 
-    local t = { flip = true }
+    local t = { flip = true, dark_mode = false }
+
+    if skin_config.option["Dark Mode"] == prop:custom("dark_mode_on") then
+        t.dark_mode = true
+    end
 
     if skin_config.option["Left Pane"] == prop:custom("left_pane_main") then
         local pane = SkinObject:new(panes.main_pane(t), 0, 64)
