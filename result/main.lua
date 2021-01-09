@@ -14,45 +14,45 @@ local prop = require("prop")
 local SkinObject = require("skin_object")
 
 local util = require("result/util")
+local panes = require("result/panes")
 
 local widget_property = {
-    { name = "OFF", op = prop:add_op("custom_off") },
-    { name = "GAUGE GRAPH",             op = prop:add_op("custom_gauge_graph")   },
-    { name = "SCORE INFO",              op = prop:add_op("custom_score_info")    },
-    { name = "MISSCOUNT / COMBO",       op = prop:add_op("custom_missct_combo") },
-    { name = "JUDGE DETAIL",            op = prop:add_op("custom_judge_detail")  },
-    { name = "FAST/SLOW / COMBO BREAK", op = prop:add_op("custom_fs_cb")         },
+    { name = "OFF", op = prop:custom("custom_off") },
+    { name = "GAUGE GRAPH",             op = prop:custom("custom_gauge_graph")   },
+    { name = "SCORE INFO",              op = prop:custom("custom_score_info")    },
+    { name = "MISSCOUNT / COMBO",       op = prop:custom("custom_missct_combo") },
+    { name = "JUDGE DETAIL",            op = prop:custom("custom_judge_detail")  },
+    { name = "FAST/SLOW / COMBO BREAK", op = prop:custom("custom_fs_cb")         },
 }
 
--- this should be called after prop:add_op has been called for widget ops
-local panes = require("result/panes")
+-- this should be called after prop:custom has been called for widget ops
 
 local property = {
     { name = "Left Pane", def = "RESULT", item = {
-        { name = "OFF",    op = prop:add_op("left_pane_off")  },
-        { name = "RESULT", op = prop:add_op("left_pane_main") },
-        { name = "CUSTOM", op = prop:add_op("left_pane_custom") },
+        { name = "OFF",    op = prop:custom("left_pane_off")  },
+        { name = "RESULT", op = prop:custom("left_pane_main") },
+        { name = "CUSTOM", op = prop:custom("left_pane_custom") },
     }},
     { name = "Right Pane", def = "OFF", item = {
-        { name = "OFF",    op = prop:add_op("right_pane_off")  },
-        { name = "RESULT", op = prop:add_op("right_pane_main") },
-        { name = "CUSTOM", op = prop:add_op("right_pane_custom") },
+        { name = "OFF",    op = prop:custom("right_pane_off")  },
+        { name = "RESULT", op = prop:custom("right_pane_main") },
+        { name = "CUSTOM", op = prop:custom("right_pane_custom") },
     }},
     { name = "Use Stagefile as Background Image", def = "OFF", item = {
-        { name = "ON",  op = prop:add_op("stagefile_on")  },
-        { name = "OFF", op = prop:add_op("stagefile_off") },
+        { name = "ON",  op = prop:custom("stagefile_on")  },
+        { name = "OFF", op = prop:custom("stagefile_off") },
     }},
     { name = "Add Outline Around Title", def = "OFF", item = {
-        { name = "OFF",  op = prop:add_op("outline_off")  },
-        { name = "weight 1",  op = prop:add_op("outline_1")  },
-        { name = "weight 2",  op = prop:add_op("outline_2")  },
-        { name = "weight 3",  op = prop:add_op("outline_3")  },
-        { name = "weight 4",  op = prop:add_op("outline_4")  },
+        { name = "OFF",  op = prop:custom("outline_off")  },
+        { name = "weight 1",  op = prop:custom("outline_1")  },
+        { name = "weight 2",  op = prop:custom("outline_2")  },
+        { name = "weight 3",  op = prop:custom("outline_3")  },
+        { name = "weight 4",  op = prop:custom("outline_4")  },
     }},
     { name = "-------- CUSTOM PANE --------", item = {{ name = "---" }} },
     { name = "Layout Style", item = {
-        { name = "Normal", op = prop:add_op("custom_layout_normal") },
-        { name = "Spread", op = prop:add_op("custom_layout_spread") },
+        { name = "Normal", op = prop:custom("custom_layout_normal") },
+        { name = "Spread", op = prop:custom("custom_layout_spread") },
     }},
     { name = "Widget 1", item = widget_property },
     { name = "Widget 2", item = widget_property },
@@ -284,17 +284,17 @@ local function main()
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
         -- stagefile
-        { id = prop.image.stagefile, op = { prop.prop.stagefile_on, prop.op.result_clear }, dst = {
+        { id = prop.image.stagefile, op = { prop:custom("stagefile_on"), prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
         -- custom backgrounds
-        { id = "bg_aaa", op = { prop.prop.stagefile_off, prop.op.result_aaa_1p, prop.op.result_clear }, dst = {
+        { id = "bg_aaa", op = { prop:custom("stagefile_off"), prop.op.result_aaa_1p, prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
-        { id = "bg_aa",  op = { prop.prop.stagefile_off, prop.op.result_aa_1p,  prop.op.result_clear }, dst = {
+        { id = "bg_aa",  op = { prop:custom("stagefile_off"), prop.op.result_aa_1p,  prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
-        { id = "bg_a",   op = { prop.prop.stagefile_off, prop.op.result_a_1p,   prop.op.result_clear }, dst = {
+        { id = "bg_a",   op = { prop:custom("stagefile_off"), prop.op.result_a_1p,   prop.op.result_clear }, dst = {
             { x = 0, y = 0, w = header.w, h = header.h, filter = 1 }
         }},
         -- failed bg
@@ -307,13 +307,13 @@ local function main()
 
     local text_x, title_y, artist_y = 960, 80, 52
 
-    if skin_config.option["Add Outline Around Title"] ~= prop.prop.outline_off then
+    if skin_config.option["Add Outline Around Title"] ~= prop:custom("outline_off") then
         local outline_weight = 1
-        if skin_config.option["Add Outline Around Title"] == prop.prop.outline_2 then
+        if skin_config.option["Add Outline Around Title"] == prop:custom("outline_2") then
             outline_weight = 2
-        elseif skin_config.option["Add Outline Around Title"] == prop.prop.outline_3 then
+        elseif skin_config.option["Add Outline Around Title"] == prop:custom("outline_3") then
             outline_weight = 3
-        elseif skin_config.option["Add Outline Around Title"] == prop.prop.outline_4 then
+        elseif skin_config.option["Add Outline Around Title"] == prop:custom("outline_4") then
             outline_weight = 4
         end
         for angle=0,360,12 do
@@ -333,20 +333,20 @@ local function main()
 
     local t = { flip = true }
 
-    if skin_config.option["Left Pane"] == prop.prop.left_pane_main then
+    if skin_config.option["Left Pane"] == prop:custom("left_pane_main") then
         local pane = SkinObject:new(panes.main_pane(t), 0, 64)
         pane:apply(skin)
-    elseif skin_config.option["Left Pane"] == prop.prop.left_pane_custom then
+    elseif skin_config.option["Left Pane"] == prop:custom("left_pane_custom") then
         local pane = SkinObject:new(panes.custom(t), 0, 64)
         pane:apply(skin)
     end
 
     t.flip = false
 
-    if skin_config.option["Right Pane"] == prop.prop.right_pane_main then
+    if skin_config.option["Right Pane"] == prop:custom("right_pane_main") then
         local pane = SkinObject:new(panes.main_pane(t), 1408, 64)
         pane:apply(skin)
-    elseif skin_config.option["Right Pane"] == prop.prop.right_pane_custom then
+    elseif skin_config.option["Right Pane"] == prop:custom("right_pane_custom") then
         local pane = SkinObject:new(panes.custom(t), 1408, 64)
         pane:apply(skin)
     end

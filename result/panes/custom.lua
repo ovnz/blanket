@@ -23,7 +23,7 @@ local function get_widgets()
     end
 
     local function check_op(op)
-        if op == prop.prop.custom_off then return nil
+        if op == prop:custom("custom_off") then return nil
         else return op end
     end
 
@@ -58,9 +58,9 @@ local function custom_pane(t)
     local y = 928
     for _, widget in pairs(self_widgets) do
         table.insert(objs, SkinObject:new(widget.f(t), 24, y - widget.dim.h))
-        if skin_config.option["Layout Style"] == prop.prop.custom_layout_normal then
+        if skin_config.option["Layout Style"] == prop:custom("custom_layout_normal") then
             y = y - widget.dim.h - 12
-        elseif skin_config.option["Layout Style"] == prop.prop.custom_layout_spread then
+        elseif skin_config.option["Layout Style"] == prop:custom("custom_layout_spread") then
             y = y - widget.dim.h - each_h
         end
     end

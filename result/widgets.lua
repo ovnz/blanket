@@ -44,7 +44,7 @@ local function gauge_graph(t)
     if "" == level then level = main_state.number(prop.num.playlevel) end
     level = "LEVEL " .. level
 
-    local insert_text = function(skin, dx, dy)
+    local insert_text = function(skin)
         table.insert(skin.text,
             { id = "difficulty", font = "lvl", size = 30, align = 1, constantText = difficulty })
         table.insert(skin.text,
@@ -70,6 +70,15 @@ local function gauge_graph(t)
         { id = "grade_f",   op = { prop.op.now_f_1p },   dst = {{ x = 7, y = 84, w = 448, h = 132 }} },
 
         { id = "gaugegraph", blend = 2, dst = {{ x = 8, y = 56, w = 446, h = 192, }} },
+        -- pseudo anti-aliasing (disabled for now, needs fine tuning)
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  6, y = 56, w = 446, h = 192, a = 32 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x = 10, y = 56, w = 446, h = 192, a = 32 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  8, y = 54, w = 446, h = 192, a = 32 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  8, y = 58, w = 446, h = 192, a = 32 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  7, y = 55, w = 446, h = 192, a = 64 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  9, y = 55, w = 446, h = 192, a = 64 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  7, y = 57, w = 446, h = 192, a = 64 }} },
+        -- { id = "gaugegraph", blend = 2, dst = {{ x =  9, y = 57, w = 446, h = 192, a = 64 }} },
     }
 end
 
@@ -161,7 +170,7 @@ local function misscount_combo(t)
         = 289,    55,      303,          24,          321,           85,           combo_up_x - 1, missct_up_x
     end
 
-    local update_missct, update_combo = "noupdate_indicator", "noupdate_indicator"
+    local update_missct, update_maxcombo = "noupdate_indicator", "noupdate_indicator"
     if main_state.option(prop.op.update_misscount) then update_missct = "update_indicator" end
     if main_state.option(prop.op.update_maxcombo) then update_maxcombo = "update_indicator" end
 
@@ -181,7 +190,7 @@ local function misscount_combo(t)
 
         { id = update_missct,  dst = {{ x = missct_up_x,   y = 23, w = 28, h = 30 }} },
         -- disabled for the time being (see main.lua head comment)
-        -- { id = update_combo,   dst = {{ x = combo_up_x,    y = 23, w = 28, h = 30 }} },
+        -- { id = update_maxcombo,   dst = {{ x = combo_up_x,    y = 23, w = 28, h = 30 }} },
     }
 end
 
@@ -259,13 +268,13 @@ end
 
 return {
     gauge_graph     = { f = gauge_graph,     dim = { w = 463, h = 256 },
-                            op = prop.prop.custom_gauge_graph  },
+                            op = prop:custom("custom_gauge_graph")  },
     score_info      = { f = score_info,      dim = { w = 463, h = 259 },
-                            op = prop.prop.custom_score_info   },
+                            op = prop:custom("custom_score_info")   },
     misscount_combo = { f = misscount_combo, dim = { w = 463, h =  71 },
-                            op = prop.prop.custom_missct_combo },
+                            op = prop:custom("custom_missct_combo") },
     judge_detail    = { f = judge_detail,    dim = { w = 463, h = 194 },
-                            op = prop.prop.custom_judge_detail },
+                            op = prop:custom("custom_judge_detail") },
     fs_combo_break  = { f = fs_combo_break,  dim = { w = 463, h =  64 },
-                            op = prop.prop.custom_fs_cb        },
+                            op = prop:custom("custom_fs_cb")        },
 }

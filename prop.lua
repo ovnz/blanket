@@ -791,15 +791,17 @@ local properties = {
     timer = timer,
     op = op,
     text = text,
-    prop = {}
+    custom_op = {}
 }
 
 local last_op = 899
 
-function properties:add_op(name)
-    last_op = last_op + 1
-    self.prop[name] = last_op
-    return last_op
+function properties:custom(name)
+    if self.custom_op[name] == nil then
+        last_op = last_op + 1
+        self.custom_op[name] = last_op
+    end
+    return self.custom_op[name]
 end
 
 return properties
