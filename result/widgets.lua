@@ -2,6 +2,7 @@ local main_state = require("main_state")
 
 local prop = require("prop")
 local SkinObject = require("skin_object")
+local panel = require("panel")
 
 local util = require("result/util")
 
@@ -266,6 +267,72 @@ local function fs_combo_break(t)
     }
 end
 
+local function profile(t)
+    -- see main.lua/gen_dan_ranks
+    local function dan_string(op)
+        if op == prop:custom("no_dan_rank") then return nil end
+        local function pad(num)
+            if num < 10 then return "0" .. num else return tostring(num) end
+        end
+        local prefix, symbol = "", ""
+        if op > 1500 and op < 1550 then
+            prefix = "SP"
+            if op < 1520 then symbol = "☆" .. pad(op - 1500)
+            elseif op <= 1530 then symbol = "★" .. pad(op - 1520)
+            elseif op == 1531 then symbol = "★★" elseif op == 1532 then symbol = "(^^)" end
+        elseif op > 1550 and op < 1600 then
+            prefix = "DP"
+            if op < 1570 then symbol = "☆" .. pad(op - 1550)
+            elseif op <= 1580 then symbol = "★" .. pad(op - 1580)
+            elseif op == 1581 then symbol = "★★" elseif op == 1582 then symbol = "(^^)" end
+        elseif op > 1600 and op < 1650 then
+            print(op)
+            if op < 1620 then symbol = "○" .. pad(op - 1600)
+            elseif op <= 1630 then symbol = "●" .. pad(op - 1620)
+            elseif op == 1631 then symbol = "●●" elseif op == 1632 then symbol = "PM(^^)" end
+        end
+        return prefix .. symbol
+    end
+
+    local rounded
+    if t.flip then rounded = { false, true, true, false }
+    else rounded = { true, false, false, true } end
+
+    local frame = panel{ w = 463, h = 98, titlebar = true, rounded = rounded }
+
+    local dans = {
+        dan_string(skin_config.option["Dan Rank 1"]),
+        dan_string(skin_config.option["Dan Rank 2"]),
+        dan_string(skin_config.option["Dan Rank 3"]),
+    }
+    local dans_str = ""
+    for _,v in ipairs(dans) do
+        dans_str = dans_str .. v .. " / "
+    end
+    dans_str = string.sub(dans_str, 1, -4)
+
+    return {
+        SkinObject:new(frame, 0, 0),
+        { id = "txt_profile", dst = {{ x = 195, y = 87, w = 71, h = 8 }} },
+
+        -- avi border
+        { id = prop.image.black, op = { prop:custom("profile_avi_border_on") }, dst = {
+            { x = 16, y = 8, w = 66, h = 66 }
+        }},
+        { id = "avatar", dst = {{ x = 17, y = 9, w = 64, h = 64 }} },
+
+        function (skin)
+            table.insert(skin.text,
+                { id = "playerdans", font = "lvl", size = 16, align = 0,
+                  constantText = dans_str, overflow = 1, }
+            )
+        end,
+
+        { id = "playername", dst = {{ x = 90, y = 38, w = 357, h = 32, r = 0, g = 0, b = 0 }} },
+        { id = "playerdans", dst = {{ x = 90, y = 14, w = 357, h = 16, r = 0, g = 0, b = 0 }} },
+    }
+end
+
 return {
     gauge_graph     = { f = gauge_graph,     dim = { w = 463, h = 256 },
                             op = prop:custom("custom_gauge_graph")  },
@@ -277,4 +344,6 @@ return {
                             op = prop:custom("custom_judge_detail") },
     fs_combo_break  = { f = fs_combo_break,  dim = { w = 463, h =  64 },
                             op = prop:custom("custom_fs_cb")        },
+    profile         = { f = profile,         dim = { w = 463, h =  98 },
+                            op = prop:custom("custom_profile")      },
 }

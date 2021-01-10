@@ -1,9 +1,10 @@
 -- main result pane is mostly finished now
 
--- information that belongs to other panes:
--- * ir info
--- * detailed song info (genre etc)
--- * more graphs
+-- todo:
+-- * ir info widget
+-- * detailed song info widget (genre etc)
+-- * beatoraja graph widgets (f/s, judge, bpm, etc)
+-- * add more things to the profile widget
 
 -- issues:
 -- * update indicator property for max combo might not be working properly
@@ -22,10 +23,36 @@ local widget_property = {
     { name = "OFF", op = prop:custom("custom_off") },
     { name = "GAUGE GRAPH",             op = prop:custom("custom_gauge_graph")   },
     { name = "SCORE INFO",              op = prop:custom("custom_score_info")    },
-    { name = "MISSCOUNT / COMBO",       op = prop:custom("custom_missct_combo") },
+    { name = "MISSCOUNT / COMBO",       op = prop:custom("custom_missct_combo")  },
     { name = "JUDGE DETAIL",            op = prop:custom("custom_judge_detail")  },
     { name = "FAST/SLOW / COMBO BREAK", op = prop:custom("custom_fs_cb")         },
+    { name = "PROFILE",                 op = prop:custom("custom_profile")       },
 }
+
+local function gen_dan_ranks()
+    local ranks = {{ name = "-", op = prop:custom("no_dan_rank") }}
+    local function add_ranks(prefix, symbol_1, symbol_2, op_start)
+        for n = 1,10 do
+            local r if n == 10 then r = "10" else r = "0" .. n end
+            table.insert(ranks, { name = prefix .. symbol_1 .. r, op = op_start + n })
+        end
+        for n = 1,10 do
+            local r if n == 10 then r = "10" else r = "0" .. n end
+            table.insert(ranks, { name = prefix .. symbol_2 .. r, op = op_start + 20 + n })
+        end
+    end
+    add_ranks("SP", "☆", "★", 1500)
+    table.insert(ranks, { name = "SP★★", op = 1531 })
+    table.insert(ranks, { name = "SP(^^)", op = 1532 })
+    add_ranks("DP", "☆", "★", 1550)
+    table.insert(ranks, { name = "DP★★", op = 1581 })
+    table.insert(ranks, { name = "DP(^^)", op = 1582 })
+    add_ranks("", "○", "●", 1600)
+    table.insert(ranks, { name = "●●", op = 1631 })
+    table.insert(ranks, { name = "PM(^^)", op = 1632 })
+
+    return ranks
+end
 
 local property = {
     { name = "Left Pane", def = "RESULT", item = {
@@ -63,11 +90,20 @@ local property = {
     { name = "Widget 3", item = widget_property },
     { name = "Widget 4", item = widget_property },
     { name = "Widget 5", item = widget_property },
+    { name = "---------- PROFILE ----------", item = {{ name = "---" }} },
+    { name = "Avatar Border", item = {
+        { name = "OFF", op = prop:custom("profile_avi_border_off") },
+        { name = "ON",  op = prop:custom("profile_avi_border_on")  },
+    }},
+    { name = "Dan Rank 1", item = gen_dan_ranks(), def = '-' },
+    { name = "Dan Rank 2", item = gen_dan_ranks(), def = '-' },
+    { name = "Dan Rank 3", item = gen_dan_ranks(), def = '-' },
     { name = "-----------------------------", item = {{ name = "---" }} },
 }
 
 local filepath = {
-    { name = "GRADE",   path = "customise/grade/*.png" },
+    { name = "AVATAR",  path = "customise/avatar/*.png" },
+    { name = "GRADE",   path = "customise/grade/*.png"  },
     { name = "CLEAR AAA background image", path = "customise/background/aaa/*.png" },
     { name = "CLEAR AA background image",  path = "customise/background/aa/*.png" },
     { name = "CLEAR A background image",   path = "customise/background/a/*.png" },
@@ -97,6 +133,7 @@ local function main()
     skin.source = {
         { id = "parts",     path = "result/parts.png" },
         { id = "vignette",  path = "result/vignette.png" },
+        { id = "avatar",    path = "customise/avatar/*.png" },
         { id = "grade",     path = "customise/grade/*.png" },
         { id = "bg_aaa",    path = "customise/background/aaa/*.png" },
         { id = "bg_aa",     path = "customise/background/aa/*.png" },
@@ -119,14 +156,18 @@ local function main()
           outlineWidth = 2, align = 1, ref = prop.text.fulltitle,  overflow = 1, },
         { id = "artist", font = "artist", size = artist_size, outlineColor = "000000ff",
           outlineWidth = 2, align = 1, ref = prop.text.fullartist, overflow = 1, },
-        -- { id = "lvl",    font = "lvl", size = artist_size, outlineColor = "000000ff",
-        --   align = 1,     ref = prop.text.fullartist, overflow = 1, },
+        { id = "playername", font = "lvl", size = 32, align = 0,
+          ref = prop.text.player, overflow = 1, },
+        -- { id = "playerdan",  font = "lvl", size = 16, align = 1,
+        --   ref = prop.text.player, overflow = 1, },
     }
 
     skin.image = {
         { id = "vignette", src = "vignette", x = 0, y = 0, w = header.w, h = header.h },
 
         { id = "trans", src = "parts", x = 0 , y = 0 , w = 1, h = 1 },
+
+        { id = "avatar",    src = "avatar",     x = 0, y = 0, w = -1, h = -1 },
 
         { id = "bg_aaa",    src = "bg_aaa",     x = 0, y = 0, w = -1, h = -1 },
         { id = "bg_aa",     src = "bg_aa",      x = 0, y = 0, w = -1, h = -1 },
@@ -178,6 +219,7 @@ local function main()
         { id = "txt_grade",   src = "parts", x =  981, y =  72, w = 128, h = 15 },
         { id = "txt_score",   src = "parts", x =  981, y =  89, w = 128, h = 15 },
         { id = "txt_target",  src = "parts", x =  981, y = 123, w = 128, h = 15 },
+        { id = "txt_profile", src = "parts", x = 1047, y = 233, w =  71, h =  8 },
 
         { id = "txt_missct",   src = "parts", x =  980, y = 105, w = 121, h =  9 },
         { id = "txt_maxcombo", src = "parts", x =  980, y = 114, w = 115, h =  9 },
