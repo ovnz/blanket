@@ -269,9 +269,9 @@ end
 return {
     gauge_graph     = { f = gauge_graph,     dim = { w = 463, h = 256 },
                             op = prop:custom("custom_gauge_graph")  },
-    score_info      = { f = score_info,      dim = { w = 463, h = 259 },
+    score_info      = { f = score_info,      dim = { w = 463, h = 253 },
                             op = prop:custom("custom_score_info")   },
-    misscount_combo = { f = misscount_combo, dim = { w = 463, h =  71 },
+    misscount_combo = { f = misscount_combo, dim = { w = 463, h =  65 },
                             op = prop:custom("custom_missct_combo") },
     judge_detail    = { f = judge_detail,    dim = { w = 463, h = 194 },
                             op = prop:custom("custom_judge_detail") },
