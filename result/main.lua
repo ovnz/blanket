@@ -16,6 +16,8 @@ local SkinObject = require("skin_object")
 local util = require("result/util")
 local panes = require("result/panes")
 
+local panel = require 'panel'
+
 local widget_property = {
     { name = "OFF", op = prop:custom("custom_off") },
     { name = "GAUGE GRAPH",             op = prop:custom("custom_gauge_graph")   },
